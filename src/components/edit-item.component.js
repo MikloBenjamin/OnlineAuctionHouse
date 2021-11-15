@@ -3,22 +3,38 @@ import DatePicker from "react-datepicker";
 import axios from "axios";
 import "react-datepicker/dist/react-datepicker.css";
 
-export default class CreateItem extends Component {
+
+export default class EditItem extends Component {
     constructor(props){
         super(props);
         this.onChangeName = this.onChangeName.bind(this);
         this.onChangeDescription = this.onChangeDescription.bind(this);
         this.onChangeDate = this.onChangeDate.bind(this);
-        this.onChangeImages = this.onChangeImages.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
             name: '',
             description: '',
             date: new Date(),
-            image: null,
-            owner_id: ""
+            users: [],
+            id: ""
         }
+    }
+
+    componentDidMount() {
+        const _id = this.props.location.pathname.split('/').at(-1)
+        axios.get("http://localhost:5823/items/edit/" + _id)
+            .then(response => {
+                this.setState({
+                    name: response.data.name,
+                    description: response.data.description,
+                    date: new Date(response.data.date),
+                    id: _id
+                })
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     onChangeName(e){
@@ -36,32 +52,19 @@ export default class CreateItem extends Component {
             date: date
         })
     }
-    onChangeImages(e){
-        console.log(e.target.files)
-        this.setState({
-            image: e.target.files[0]
-        })
-    }
 
+    // on submitting create item form
     onSubmit(e){
         e.preventDefault();
 
-        const formData = new FormData();
-
-        formData.append("name", this.state.name);
-        formData.append("description", this.state.description);
-        formData.append("date", this.state.date);
-        formData.append("image", this.state.image);
-
-        const item = {
+        const _item = {
             name: this.state.name,
             description: this.state.description,
             date: this.state.date,
-            image: this.state.image
+            id: this.state.id
         }
 
-        console.log(item);
-        axios.post("http://localhost:5823/items/createWithImage", formData)
+        axios.post("http://localhost:5823/items/update/" + this.state.id, _item)
             .then(res => console.log(res.data))
             .catch((error) => {
                 if (error.response){
@@ -78,16 +81,15 @@ export default class CreateItem extends Component {
         this.setState({
             name: "",
             description: "",
-            date: new Date(),
-            image: null
+            date: new Date()
         })
     }
 
     render() {
         return (
             <div>
-                <h3>Create New Item</h3>
-                <form onSubmit={this.onSubmit} encType="multipart/form-data">
+                <h3>Edit Item</h3>
+                <form onSubmit={this.onSubmit}>
                     <div className="form-group">
                         <label>Name: </label>
                         <input
@@ -102,6 +104,7 @@ export default class CreateItem extends Component {
                         <label>Description: </label>
                         <input
                             type="text"
+                            required
                             className="form-control"
                             value={this.state.description}
                             onChange={this.onChangeDescription}
@@ -115,21 +118,10 @@ export default class CreateItem extends Component {
                         />
                     </div>
                     <div className="form-group">
-                        <label>Images: </label>
-                        <input type="file"
-                            // multiple
-                            accept=".png, .jpg, .jpeg"
-                            filename="image"
-                            selected={this.state.image}
-                            onChange={this.onChangeImages}
-                            className="form-control-file"
-                        />
-                    </div>
-                    <div className="form-group">
                         <input
                             type="submit"
                             className="btn btn-primary"
-                            value="Create Item"
+                            value="Edit Item"
                         />
                     </div>
                 </form>

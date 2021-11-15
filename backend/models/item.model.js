@@ -12,19 +12,27 @@ const itemSchema = new Schema({
     },
     description: {
         type: String,
-        required: true,
-        trim: true,
-        minlength: 10
+        required: false,
+        trim: true
     },
     date: {
         type: Date,
         required: false
+    },
+    image: {
+        type: String,
+        required: true
+    },
+    concreteImage: {
+        data: Buffer,
+        contentType: String,
+        size: Number,
+        name: String,
+        concreteImageBase64: String
     }
 }, {
     timestamps: true
 })
-
-
 
 const Item = mongoose.model("Item", itemSchema);
 
