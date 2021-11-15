@@ -1,0 +1,41 @@
+svg{
+    margin-right: 10px;
+}
+
+#shared_navbar{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    box-shadow: 1px 10px 20px rgba(0,0,0,0.2);
+}
+
+#shared_navbar > div{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+#shared_navbar div a{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-style: italic;
+    text-decoration: none;
+    color: black;
+    font-size: 24px;
+    transition-duration: 0.2s;
+}
+
+#shared_navbar div a:hover{
+    text-shadow: 2px 0px 2px rgb(73, 73, 73);
+}
+
+#logo{
+    width: 120px;
+    height: 100px;
+    margin-left: 90px;
+}
+
+.iconPairs{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}

@@ -15,13 +15,9 @@ const itemSchema = new Schema({
         required: false,
         trim: true
     },
-    date: {
-        type: Date,
-        required: false
-    },
-    image: {
+    username: {
         type: String,
-        required: true
+        require: true
     },
     concreteImage: {
         data: Buffer,

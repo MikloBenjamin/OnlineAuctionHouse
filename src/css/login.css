@@ -1,0 +1,61 @@
+#sign-in-div{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 50%;
+    margin-top: 60px;
+    margin-left: 25%;
+    border-radius: 2px;
+    box-shadow: 1px 10px 20px rgba(0,0,0,0.2);
+}
+#sign-in-form{
+    height: 350px;
+    border: 1px solid rgb(231, 119, 54);
+    display: flex;
+    flex-direction: column;
+}
+#sign-in-form > input{
+    margin-left: 32.5%;
+    margin-top: 30px;
+    width:35%;
+    height: 30px;
+    background-color: #d43b6e;
+    font-size: 14px;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    transition-duration: 0.3s;
+    cursor: pointer;
+}
+#sign-in-form > input:hover, #register-submit:hover{
+    background-color: #7a237a;
+}
+#legit-form{
+    width: 50%;
+    margin-top: 30px;
+    margin-left: 27.5%;
+}
+#hello{
+    font-size: 20px;
+    margin-left: calc(50% - 40px);
+}
+#hello-rest{
+    margin-top: -10px;
+}
+#form-input{
+    border: 1px solid rgb(184, 182, 182);
+    border-radius: 5px;
+    height: 25px;
+}
+#right-text{
+    display: grid;
+    grid-template-columns: 1fr;
+    column-gap:normal;
+    text-align: center;
+    background-image: linear-gradient(rgb(231, 119, 54), #d43b6e);
+}
+#right-text > p, #right-text > a{
+    font-size: 18px;
+    color: white;
+}
