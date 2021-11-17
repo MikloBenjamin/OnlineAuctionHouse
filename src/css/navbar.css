@@ -29,9 +29,9 @@ svg{
 }
 
 #logo{
-    width: 120px;
+    width: 25%;
     height: 100px;
-    margin-left: 90px;
+    margin-left: 10%;
 }
 
 .iconPairs{
@@ -39,3 +39,27 @@ svg{
     justify-content: space-evenly;
     align-items: center;
 }
+
+@media only screen and (min-width: 601px) and (max-width: 950px) {
+    #logo{
+        width: 40%;
+    }
+}
+
+@media only screen and (min-width: 400px) and (max-width: 600px) {
+    #logo{
+        width: 60%;
+        margin-left: 10%;
+    }
+}
+
+@media only screen and (max-width: 400px) { 
+    #shared_navbar{
+        grid-template-columns: 1fr;
+    }
+    #logo{
+        width: 50%;
+        margin-left: 25%;
+    }
+}
+

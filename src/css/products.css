@@ -1,17 +1,13 @@
 #products-list{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     margin-top: 1%;
     width: 100%;
 }
 
 #products-list > div {
-    width: 20%;
-    margin-left: 2.5%;
-    margin-top: 1%;
-    margin-right: auto;
-    box-shadow: 1px 10px 20px #888888;
+    margin: 1% 2% 1% 2%;
+    box-shadow: 1px 5px 10px #888888;
 }
 
 .user-who-posted{
@@ -53,4 +49,28 @@
 
 #button-details:hover{
     background-color: #747271;
+}
+
+@media only screen and (min-width: 1365px) {
+    #products-list{
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 950px) {
+    #products-list{
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media only screen and (min-width: 400px) and (max-width: 600px) {
+    #products-list{
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    #products-list{
+        grid-template-columns: 1fr;
+    }
 }

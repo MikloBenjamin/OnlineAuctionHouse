@@ -2,25 +2,22 @@
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-    width: 50%;
-    margin-left: 25%;
+    width: 60%;
+    margin-left: 20%;
     height: 80vh;
     margin-top: 1%;
     border-radius: 2px;
     box-shadow: 1px 10px 20px rgba(0,0,0,0.2);
 }
 
-#sign-in-container > div {
-    width: 50%;
-    height: 100%;
-}
-
 #sign-in-form{
-    border: 1px solid rgb(231, 119, 54);
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
+    width: 50%;
+    height: 70%;
+    margin-top: 15%;
 }
 
 #sign-in-form > form {
@@ -31,7 +28,7 @@
 }
 
 #sign-in-form > div {
-    font-size: 18px;
+    font-size: 2vw;
 }
 
 #sign-in-form > form > input{
@@ -64,6 +61,8 @@
     column-gap: normal;
     text-align: center;
     background-image: linear-gradient(rgb(231, 119, 54), #d43b6e);
+    width: 50%;
+    height: 100%;
 }
 
 #welcome-panel > p, #welcome-panel > a{
@@ -93,3 +92,53 @@
 #emaillabel{
     width: 20%;
 }
+
+.back-button{
+    display: none;
+}
+
+@media only screen and (min-width: 701px) and (max-width: 900px) {
+    #sign-in-container{
+        width: 80%;
+        margin-left: 10%;
+    }
+}
+
+@media only screen and (min-width: 400px) and (max-width: 700px) {
+    #sign-in-container{
+        width: 80%;
+        margin-left: 10%;
+    }
+    #sign-in-form > div {
+        font-size: 2.5vw;
+    }
+    .registerLabels{
+        font-size: 2vw;
+    }
+}
+
+@media only screen and (max-width: 500px) { 
+    #sign-in-container{
+        width: 90%;
+        margin-left: 5%;
+        flex-direction: column;
+    }
+    #sign-in-form {
+        width: 100%;
+    }
+    #sign-in-form > div {
+        font-size: 5vw;
+    }
+    #welcome-panel{
+        display: none;
+    }
+    .back-button{
+        display: block;
+        margin-left: calc(50% - 15px);
+    }
+    .registerLabels{
+        font-size: 4vw;
+    }
+}
+
+

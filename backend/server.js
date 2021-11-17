@@ -63,16 +63,10 @@ var uploadFiles = upload.array("images", 5);
 
 // Creating routes for the items
 const itemsRouter = require("./routes/items");
-app.use("/items", itemsRouter);
+const usersRouter = require("./routes/users");
 
-// var storage = multer.distkStorage({
-//     destination: (req, file, cb) => {
-//         cb(null, "images")
-//     },
-//     filename: (req, file, cb) => {
-//         cb(null, file.fieldname + "-" + Date.now())
-//     }
-// })
+app.use("/items", itemsRouter);
+app.use("/users", usersRouter);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);

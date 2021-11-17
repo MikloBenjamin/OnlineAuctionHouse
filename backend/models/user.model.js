@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const MimeNode = require("nodemailer/lib/mime-node");
 const { isEmail } = require("validator");
 const Schema = mongoose.Schema;
 
@@ -19,8 +18,8 @@ const userSchema= new Schema({
         type: String,
         require: true,
         unique: true,
-        minlength: 5,
-        maxlength: 8,
+        minlength: 4,
+        maxlength: 16,
         trim: true
     },
     email:{
@@ -32,7 +31,6 @@ const userSchema= new Schema({
     password: {
         type: String,
         require: true,
-        minlength: 8,
         trim: true
     },
     about: {

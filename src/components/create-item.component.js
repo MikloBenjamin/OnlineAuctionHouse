@@ -53,14 +53,6 @@ export default class CreateItem extends Component {
         formData.append("date", this.state.date);
         formData.append("image", this.state.image);
 
-        const item = {
-            name: this.state.name,
-            description: this.state.description,
-            date: this.state.date,
-            image: this.state.image
-        }
-
-        console.log(item);
         axios.post("http://localhost:5823/items/createWithImage", formData)
             .then(res => console.log(res.data))
             .catch((error) => {
