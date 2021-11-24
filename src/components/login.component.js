@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
 
 export default class Login extends Component {
@@ -11,7 +11,11 @@ export default class Login extends Component {
         
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            ready: {
+                isSignedUp: false,
+                user: {}
+            }
         }
     }
 
@@ -36,7 +40,16 @@ export default class Login extends Component {
 
         axios.post("http://localhost:5823/users/login/user/", user)
             .then(response => {
-                console.log(response.data)
+                // console.log(response);
+                if(response.data !== "null" && response.data !== "error"){
+                    this.setState({
+                        ready: {
+                            isSignedUp: true,
+                            user: response.data
+                        }
+                    });
+                    console.log(this.state.ready.user);
+                }
             })
             .catch((error) => {
                 if (error.response){
@@ -52,6 +65,12 @@ export default class Login extends Component {
     }
 
     render() {
+        if (this.state.ready.isSignedUp && this.state.ready.user !== {}){
+            return <Redirect to={{
+                pathname: `/`,
+                state: this.state.ready.user
+            }}/>;
+        }
         return (
             <div id="sign-in-container">
                 <div id="sign-in-form">
@@ -70,11 +89,11 @@ export default class Login extends Component {
                                 <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
                             </svg>
                             Password:</label>
-                        <input className="form-input" type="password" name="pwd" minLength="4" required onChange={this.onChangePwd}/><br/>
+                        <input className="form-input" type="password" name="pwd" required onChange={this.onChangePwd}/><br/>
                         <input type="submit" value="Sign In"/>
                     </form>
                     <div id="route-to-register">
-                        <Link to="/" id="back-button1">
+                        <Link to="/"  className="back-button">
                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-arrow-left-circle" viewBox="0 0 16 16">
                                 <path fillRule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
                             </svg>

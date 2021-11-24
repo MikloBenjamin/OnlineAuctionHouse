@@ -4,10 +4,11 @@
     align-items: flex-start;
     width: 60%;
     margin-left: 20%;
-    height: 80vh;
-    margin-top: 1%;
+    height: 60vh;
+    margin-top: 5%;
     border-radius: 2px;
     box-shadow: 1px 10px 20px rgba(0,0,0,0.2);
+    border: 1px solid #571801;
 }
 
 #sign-in-form{
@@ -17,7 +18,7 @@
     align-items: center;
     width: 50%;
     height: 70%;
-    margin-top: 15%;
+    margin-top: 5%;
 }
 
 #sign-in-form > form {
@@ -28,7 +29,7 @@
 }
 
 #sign-in-form > div {
-    font-size: 2vw;
+    font-size: 1.7vw;
 }
 
 #sign-in-form > form > input{
@@ -127,7 +128,7 @@
         width: 100%;
     }
     #sign-in-form > div {
-        font-size: 5vw;
+        font-size: 4vw;
     }
     #welcome-panel{
         display: none;

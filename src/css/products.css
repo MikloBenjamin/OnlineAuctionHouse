@@ -6,8 +6,8 @@
 }
 
 #products-list > div {
-    margin: 1% 2% 1% 2%;
-    box-shadow: 1px 5px 10px #888888;
+    margin: 2% 2% 1% 2%;
+    border: 1px solid black;
 }
 
 .user-who-posted{
@@ -37,7 +37,7 @@
     height: 100%;
 }
 
-#button-details{
+.button-details{
     width: 100%;
     background-color: #1c1d1b;
     font-size: 18px;
@@ -47,13 +47,13 @@
     cursor: pointer;
 }
 
-#button-details:hover{
+.button-details:hover{
     background-color: #747271;
 }
 
 @media only screen and (min-width: 1365px) {
     #products-list{
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
     }
 }
 

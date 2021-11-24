@@ -54,6 +54,7 @@ export default class Register extends Component {
         })
     }
     onSubmit(e){
+        e.preventDefault();
         const item = {
             username: this.state.username,
             password: this.state.password,

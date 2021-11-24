@@ -49,15 +49,28 @@ function auth(username, password, callback){
 }
 
 router.post("/login/user/", (req, res) => {
-    console.log(req.body);
+    console.log(res);
     auth(req.body.username, req.body.password, (error, user) => {
         if (error){
-            console.log(error)
+            console.log(error);
+            // res.data = "error";
+            res.send("error");
         }
         if (user){
             console.log("user found");
+            // res.data = user;
+            clientUser = {
+                username: user.username,
+                email: user.email,
+                about: user.about,
+                firstname: user.firstname,
+                lastname: user.lastname
+            }
+            res.send(clientUser);
         } else {
-            console.log("user not found");
+            console.log("user found");
+            // res.data = "null";
+            res.send("null");
         }
     });
 });

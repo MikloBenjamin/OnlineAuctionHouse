@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/navbar.css"
 import "./css/products.css"
 import "./css/login-register.css"
-import Navbar from "./components/navbar.component";
+import { NavBar } from "./components/navbar.component";
 import ItemsList from "./components/items-list.component";
 import CreateItem from "./components/create-item.component";
 import EditItem from "./components/edit-item.component";
@@ -17,8 +17,9 @@ function App() {
   return (
     <Router>
       <main>
-        <Navbar />
-        <Route exact path="/" component={Bids}/>
+        <NavBar />
+        <Route exact path="/" render={ props => <Bids {...props} /> } />
+        <Route path="/navbar" render={ props => <NavBar {...props} /> }/>
         <Route path="/login" component={Login}/>
         <Route path="/register" component={Register}/>
         <Route path="/items" component={ItemsList}/>

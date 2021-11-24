@@ -3,13 +3,31 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import img from "../samsungS10.jpg"
 
+const Client = props => (
+    <p>{props.user.username}</p>
+)
+
 export default class Bids extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            user: this.props.location.state
+        }
+    }
+
+    showClientName(){
+        if(this.state.user){
+            return <Client user={this.state.user}/>
+        }
+        return <p>User - Post title</p>;
+    }
+
     render() {
         return (
             <div id="products-list">
                 <div className="product-item">
                     <div className="user-who-posted">
-                        <p>User - Post title</p>
+                        {this.showClientName()}
                     </div>
                     <div>
                         <Link to="/"><img className="modelimage" src={img} alt=""/></Link>
@@ -29,7 +47,7 @@ export default class Bids extends Component {
                             <div>Bind</div>
                         </div>
                     </div>  
-                    <Link to="/"><button id="button-details">Details</button></Link>
+                    <Link to="/"><button className="button-details">Details</button></Link>
                 </div>
                 <div className="product-item">
                     <div className="user-who-posted">
@@ -53,7 +71,7 @@ export default class Bids extends Component {
                             <div>Bind</div>
                         </div>
                     </div>  
-                    <Link to="/"><button id="button-details">Details</button></Link>
+                    <Link to="/"><button className="button-details">Details</button></Link>
                 </div>
                 <div className="product-item">
                     <div className="user-who-posted">
@@ -77,7 +95,7 @@ export default class Bids extends Component {
                             <div>Bind</div>
                         </div>
                     </div>  
-                    <Link to="/"><button id="button-details">Details</button></Link>
+                    <Link to="/"><button className="button-details">Details</button></Link>
                 </div>
                 <div className="product-item">
                     <div className="user-who-posted">
@@ -101,7 +119,7 @@ export default class Bids extends Component {
                             <div>Bind</div>
                         </div>
                     </div>  
-                    <Link to="/"><button id="button-details">Details</button></Link>
+                    <Link to="/"><button className="button-details">Details</button></Link>
                 </div>
                 <div className="product-item">
                     <div className="user-who-posted">
@@ -125,7 +143,7 @@ export default class Bids extends Component {
                             <div>Bind</div>
                         </div>
                     </div>  
-                    <Link to="/"><button id="button-details">Details</button></Link>
+                    <Link to="/"><button className="button-details">Details</button></Link>
                 </div>
             </div>
         );
