@@ -15,7 +15,14 @@ export default class Login extends Component {
             ready: {
                 isSignedUp: false,
                 user: {}
-            }
+            },
+            logout: this.props.location.state
+        }
+    }
+
+    componentDidMount(){
+        if (this.state.logout === "logout"){
+            localStorage.clear();
         }
     }
 
@@ -40,7 +47,6 @@ export default class Login extends Component {
 
         axios.post("http://localhost:5823/users/login/user/", user)
             .then(response => {
-                // console.log(response);
                 if(response.data !== "null" && response.data !== "error"){
                     this.setState({
                         ready: {
@@ -48,7 +54,6 @@ export default class Login extends Component {
                             user: response.data
                         }
                     });
-                    console.log(this.state.ready.user);
                 }
             })
             .catch((error) => {

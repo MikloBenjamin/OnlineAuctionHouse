@@ -1,29 +1,52 @@
 import React, { Component } from "react";
-import DatePicker from "react-datepicker";
+import { Redirect } from "react-router-dom";
 import axios from "axios";
-import "react-datepicker/dist/react-datepicker.css";
+import { showNavbar } from "./navbar.component";
 
 export default class CreateItem extends Component {
     constructor(props){
         super(props);
-        this.onChangeName = this.onChangeName.bind(this);
+        this.onChangeTitle = this.onChangeTitle.bind(this);
+        this.onChangeHours = this.onChangeHours.bind(this);
+        this.onChangeMinutes = this.onChangeMinutes.bind(this);
+        this.onChangeStartingPrice = this.onChangeStartingPrice.bind(this);
         this.onChangeDescription = this.onChangeDescription.bind(this);
-        this.onChangeDate = this.onChangeDate.bind(this);
         this.onChangeImages = this.onChangeImages.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
-            name: '',
+            title: '',
             description: '',
-            date: new Date(),
+            hours: 0,
+            minutes: 0,
+            startingprice: 0,
             image: null,
-            owner_id: ""
+            user: this.props.location.state
         }
     }
 
-    onChangeName(e){
+    componentDidMount(e) {
+        console.log(this.state.user)
+    }
+
+    onChangeTitle(e){
         this.setState({
-            name: e.target.value
+            title: e.target.value
+        })
+    }
+    onChangeHours(e){
+        this.setState({
+            hours: e.target.value
+        })
+    }
+    onChangeMinutes(e){
+        this.setState({
+            minutes: e.target.value
+        })
+    }
+    onChangeStartingPrice(e){
+        this.setState({
+            startingprice: e.target.value
         })
     }
     onChangeDescription(e){
@@ -31,13 +54,7 @@ export default class CreateItem extends Component {
             description: e.target.value
         })
     }
-    onChangeDate(date){
-        this.setState({
-            date: date
-        })
-    }
     onChangeImages(e){
-        console.log(e.target.files)
         this.setState({
             image: e.target.files[0]
         })
@@ -48,9 +65,12 @@ export default class CreateItem extends Component {
 
         const formData = new FormData();
 
-        formData.append("name", this.state.name);
+        formData.append("title", this.state.title);
         formData.append("description", this.state.description);
-        formData.append("date", this.state.date);
+        formData.append("hours", this.state.hours);
+        formData.append("minutes", this.state.minutes);
+        formData.append("startingprice", this.state.startingprice);
+        formData.append("owner", this.state.user.username);
         formData.append("image", this.state.image);
 
         axios.post("http://localhost:5823/items/createWithImage", formData)
@@ -68,7 +88,7 @@ export default class CreateItem extends Component {
             })
 
         this.setState({
-            name: "",
+            title: "",
             description: "",
             date: new Date(),
             image: null
@@ -76,18 +96,25 @@ export default class CreateItem extends Component {
     }
 
     render() {
+        if(this.state.user === undefined || this.state.user === null || this.state.user === 0 || this.state.user === ""){
+            return <Redirect to={{
+                pathname: `/login`,
+                state: this.state.user
+            }}/>;
+        }
         return (
-            <div>
+            <main>
+                {showNavbar(this.state.user)}
                 <h3>Create New Item</h3>
-                <form onSubmit={this.onSubmit} encType="multipart/form-data">
+                <form onSubmit={this.onSubmit} encType="multipart/form-data" className="form">
                     <div className="form-group">
-                        <label>Name: </label>
+                        <label>Title: </label>
                         <input
                             type="text"
                             required
                             className="form-control"
-                            value={this.state.name}
-                            onChange={this.onChangeName}
+                            value={this.state.title}
+                            onChange={this.onChangeTitle}
                             />
                     </div>
                     <div className="form-group">
@@ -100,14 +127,34 @@ export default class CreateItem extends Component {
                         />
                     </div>
                     <div className="form-group">
-                        <label>Date: </label>
-                        <DatePicker
-                            selected={this.state.date}
-                            onChange={this.onChangeDate}
-                        />
+                        <label>Bid time hours: </label>
+                        <input 
+                            type="number" 
+                            min="1" 
+                            max="120" 
+                            required
+                            className="form-control"
+                            onChange={this.onChangeHours}/>
+                        <label>Bid time minutes: </label>
+                        <input 
+                            type="number" 
+                            min="0" 
+                            max="59" 
+                            required
+                            className="form-control"
+                            onChange={this.onChangeMinutes}/>
                     </div>
                     <div className="form-group">
-                        <label>Images: </label>
+                        <label>Bid starting price (RON): </label>
+                        <input 
+                            type="number" 
+                            min="10" 
+                            required
+                            className="form-control"
+                            onChange={this.onChangeStartingPrice}/>
+                    </div>
+                    <div className="form-group">
+                        <label>Image: </label>
                         <input type="file"
                             // multiple
                             accept=".png, .jpg, .jpeg"
@@ -121,11 +168,11 @@ export default class CreateItem extends Component {
                         <input
                             type="submit"
                             className="btn btn-primary"
-                            value="Create Item"
+                            value="List Item"
                         />
                     </div>
                 </form>
-            </div>
+            </main>
         );
     }
 }

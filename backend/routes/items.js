@@ -11,6 +11,12 @@ router.route("/").get((req, res) => {
         .catch(error => res.status(400).json("Error: " + error));
 });
 
+router.route("/:id").get((req, res) => {
+    Item.findById(req.params.id)
+        .then(item => res.json(item))
+        .catch(error => res.status(400).json("Error: " + error.response));
+});
+
 router.route("/edit/:id").get((req, res) => {
     Item.findById(req.params.id)
         .then(item => res.json(item))
@@ -34,19 +40,6 @@ router.route("/update/:id").post((req, res) => {
                 .then(() => res.json("Item updated!"))
                 .catch(error => res.status(400).json("Error: " + error));
         })
-        .catch(error => res.status(400).json("Error: " + error));
-});
-
-router.route("/create").post((req, res) => {
-    const name = req.body.name;
-    const description = req.body.description;
-    const date = Date.parse(req.body.date);
-    var images = req.body.images;
-
-    const newItem = new Item({name, description, date, images});
-
-    newItem.save()
-        .then(() => res.json("Item created!"))
         .catch(error => res.status(400).json("Error: " + error));
 });
 
@@ -77,18 +70,25 @@ var upload = multer({
 router.post("/createWithImage", upload.single("image"), (req, res) => {
     const imageContent = fs.readFileSync(req.file.path)
 
+    biddingtime = new Date();
+    biddingtime.setHours(biddingtime.getHours() + req.body.hours)
+    biddingtime.setMinutes(biddingtime.getMinutes() + req.body.minutes)
+
     const newItem = new Item({
-        name: req.body.name,
+        title: req.body.title,
         description: req.body.description,
-        date: Date.parse(req.body.date),
-        image: req.file.filename,
-        concreteImage: {
+        owner: req.body.owner,
+        image: {
             data: imageContent,
             contentType: req.file.mimetype,
             size: req.file.size,
             name: req.file.filename,
-            concreteImageBase64: imageContent.toString("base64")
-        }
+            imageBase64: imageContent.toString("base64")
+        },
+        likes: 0,
+        bidenddate: biddingtime,
+        startingprice: req.body.startingprice,
+        bidder: ""
     });
 
     newItem.save()

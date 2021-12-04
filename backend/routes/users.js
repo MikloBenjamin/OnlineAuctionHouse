@@ -34,8 +34,6 @@ function auth(username, password, callback){
         if (!user) {
             return callback(new Error("User not found!"));
         }
-        // console.log(user)
-        // console.log({pwd: password, userpwd: user.password})
         bcrypt.compare(password, user.password, (error, result) => {
             if (error){
                 return callback(error);
@@ -49,16 +47,13 @@ function auth(username, password, callback){
 }
 
 router.post("/login/user/", (req, res) => {
-    console.log(res);
     auth(req.body.username, req.body.password, (error, user) => {
         if (error){
             console.log(error);
-            // res.data = "error";
             res.send("error");
         }
         if (user){
             console.log("user found");
-            // res.data = user;
             clientUser = {
                 username: user.username,
                 email: user.email,
@@ -68,16 +63,13 @@ router.post("/login/user/", (req, res) => {
             }
             res.send(clientUser);
         } else {
-            console.log("user found");
-            // res.data = "null";
+            console.log("user not found");
             res.send("null");
         }
     });
 });
 
-router.post("/register/user/", (req, res) => {
-    console.log(req.body);
-    
+router.post("/register/user/", (req, res) => {    
     bcrypt.hash(req.body.password, 10, (error, hashedpwd) => {
         const newUser = new User({
             firstname: req.body.firstname,

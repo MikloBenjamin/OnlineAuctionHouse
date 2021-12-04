@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 // This is the table
 const itemSchema = new Schema({
-    name: {
+    title: {
         type: String,
         required: true,
         unique: false,
@@ -15,17 +15,34 @@ const itemSchema = new Schema({
         required: false,
         trim: true
     },
-    username: {
+    owner: {
         type: String,
         require: true
     },
-    concreteImage: {
+    image: {
         data: Buffer,
         contentType: String,
         size: Number,
         name: String,
-        concreteImageBase64: String
+        imageBase64: String
+    },
+    likes: {
+        type: Number,
+        required: false
+    },
+    bidenddate: {
+        type: Date,
+        required: true
+    },
+    startingprice: {
+        type: Number,
+        required: true
+    },
+    bidder: {
+        type: String,
+        required: false
     }
+
 }, {
     timestamps: true
 })
