@@ -6,6 +6,8 @@ import "./css/navbar.css"
 import "./css/products.css"
 import "./css/login-register.css"
 import "./css/profile.css"
+import "./css/create-item.css"
+import "./css/post-description.css"
 import CreateItem from "./components/create-item.component";
 import Bids from "./components/bids.component";
 import Login from "./components/login.component";

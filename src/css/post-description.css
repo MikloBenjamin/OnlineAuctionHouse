@@ -1,0 +1,67 @@
+.product-description-container{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 80%;
+    margin: 2% 0% 0% 5%;
+}
+.post-text{
+    margin-top: 4%;
+    margin-left: 10%;
+    width: 60%;
+    align-items: center;
+    box-shadow: 1px 10px 20px #888888;
+}
+.text{
+    margin-left: 10%;
+}
+.post-image{
+    margin-left: 3%;
+    margin-top: 3.5%;
+    width: 41%;
+    border: 1px solid rgb(189, 188, 188);
+}
+.post-image > img{
+    width: 100%;
+}
+#owner{
+    color:chocolate;
+}
+#title{
+    font-size: 23px;
+}
+#end-bid-date{
+    color: darkred;
+}
+.price-details{
+    display: flex;
+    justify-content: space-between;
+    width: 30%;
+}
+.row1{
+    width: 200%;
+    border-top: 1px solid rgb(189, 188, 188);
+}
+.bottom-buttons{
+    display:flex;
+    justify-content: space-between;
+    width: 60%;
+    font-size: 26px;
+    margin: 5% 0% 5% 23%;
+}
+.bottom-buttons > button{
+    background-color: chocolate;
+    color: white;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    width: 25%;
+    transition-duration: 0.3s;
+    cursor: pointer;
+    border: none;
+}
+.bottom-buttons > button:hover{
+    background-color: black;
+}
+.backicon{
+    color: black;
+    margin-left: -5%;
+}

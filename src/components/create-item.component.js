@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
-import { showNavbar } from "./navbar.component";
+// import { showNavbar } from "./navbar.component";
+import { getBack, getBindHourSvg, getBindMinuteSvg, getImageSvg, getMoneySvg, getTimeSvg } from "../helpers/svgFunctions";
 
 export default class CreateItem extends Component {
     constructor(props){
@@ -104,74 +105,94 @@ export default class CreateItem extends Component {
         }
         return (
             <main>
-                {showNavbar(this.state.user)}
-                <h3>Create New Item</h3>
-                <form onSubmit={this.onSubmit} encType="multipart/form-data" className="form">
-                    <div className="form-group">
-                        <label>Title: </label>
-                        <input
-                            type="text"
-                            required
-                            className="form-control"
-                            value={this.state.title}
-                            onChange={this.onChangeTitle}
-                            />
+                {/* {showNavbar(this.state.user)} */}
+                <h3><b>Create New</b> Post</h3><br/>
+                <p id="text-create-item">If you want to add a new auction post, just complete the form and press <i>Done</i>!</p>
+                <div className="create-item-container">
+                    <div className="create-item-form">
+                    <div className="back-point">
+                        <Link to={{
+                            pathname: "/",
+                            state: this.state.user
+                        }}>{getBack()}
+                    </Link>
                     </div>
-                    <div className="form-group">
-                        <label>Description: </label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            value={this.state.description}
-                            onChange={this.onChangeDescription}
-                        />
+                        <form onSubmit={this.onSubmit} encType="multipart/form-data" className="form">
+                            <div className="form-group">
+                                <label>Title: </label><br/>
+                                <input
+                                    type="text"
+                                    required
+                                    className="form-input"
+                                    value={this.state.title}
+                                    onChange={this.onChangeTitle}
+                                    />
+                            </div>
+                            <div className="form-group">
+                                <label>Description: </label><br/>
+                                <input
+                                    type="text"
+                                    className="form-input"
+                                    value={this.state.description}
+                                    onChange={this.onChangeDescription}
+                                />
+                            </div><br/>
+                            <div className="form-group">
+                                <label>
+                                    {getBindHourSvg()}
+                                    Bid time hours: </label><br/>
+                                <input 
+                                    type="number" 
+                                    min="1" 
+                                    max="120" 
+                                    required
+                                    className="form-input"
+                                    onChange={this.onChangeHours}/><br/>
+                                <label>
+                                    {getBindMinuteSvg()}
+                                    Bid time minutes: </label><br/>
+                                <input 
+                                    type="number" 
+                                    min="0" 
+                                    max="59" 
+                                    required
+                                    className="form-input"
+                                    onChange={this.onChangeMinutes}/>
+                            </div><br/>
+                            <div className="form-group">
+                                <label>
+                                    {getMoneySvg()}
+                                    Bid starting price (RON): </label><br/>
+                                <input 
+                                    type="number" 
+                                    min="10" 
+                                    required
+                                    className="form-input"
+                                    onChange={this.onChangeStartingPrice}/>
+                            </div><br/>
+                            <div className="form-group">
+                                <label>
+                                    {getImageSvg()}
+                                    Image: </label><br/>
+                                <input type="file"
+                                    // multiple
+                                    accept=".png, .jpg, .jpeg"
+                                    filename="image"
+                                    selected={this.state.image}
+                                    onChange={this.onChangeImages}
+                                    className="choose-file"
+                                />
+                            </div><br/><br/>
+                            <div className="form-group">
+                                <input
+                                    type="submit"
+                                    className="button-done"
+                                    value="Done"
+                                />
+                            </div>
+                        </form><br/>
                     </div>
-                    <div className="form-group">
-                        <label>Bid time hours: </label>
-                        <input 
-                            type="number" 
-                            min="1" 
-                            max="120" 
-                            required
-                            className="form-control"
-                            onChange={this.onChangeHours}/>
-                        <label>Bid time minutes: </label>
-                        <input 
-                            type="number" 
-                            min="0" 
-                            max="59" 
-                            required
-                            className="form-control"
-                            onChange={this.onChangeMinutes}/>
-                    </div>
-                    <div className="form-group">
-                        <label>Bid starting price (RON): </label>
-                        <input 
-                            type="number" 
-                            min="10" 
-                            required
-                            className="form-control"
-                            onChange={this.onChangeStartingPrice}/>
-                    </div>
-                    <div className="form-group">
-                        <label>Image: </label>
-                        <input type="file"
-                            // multiple
-                            accept=".png, .jpg, .jpeg"
-                            filename="image"
-                            selected={this.state.image}
-                            onChange={this.onChangeImages}
-                            className="form-control-file"
-                        />
-                    </div>
-                    <div className="form-group">
-                        <input
-                            type="submit"
-                            className="btn btn-primary"
-                            value="List Item"
-                        />
-                    </div>
-                </form>
+                </div>
             </main>
         );
     }

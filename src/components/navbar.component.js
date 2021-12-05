@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../logoGGfinal.png";
-import { getLoginSvg, getLogoutSvg, getUserSvg, getDropdownSvg, getCreatePostSvg } from "../helpers/svgFunctions";
+import { getLoginSvg, getLogoutSvg, getUserSvg, getDropdownSvg, getCreatePostSvg, getSearchSvg } from "../helpers/svgFunctions";
 
 function userCreatePost(isLoggedIn, user){
     if(isLoggedIn){
@@ -43,6 +43,12 @@ const NavBar = props => (
             <div>
                 {getDropdownSvg()}
             </div>
+        </div>
+        <div className="search-engine-div">
+        <form action="">
+            <input className="search" type="text" placeholder="Search.." name="search"/>
+            {getSearchSvg()}
+        </form>
         </div>
     </nav>
 )
