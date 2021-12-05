@@ -25,6 +25,7 @@ export default class PostDetail extends Component {
             .catch((error) => {
                 console.log(error);
             });
+        console.log(this.state.user)
     }
 
     render() {

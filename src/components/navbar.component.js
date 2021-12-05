@@ -30,7 +30,7 @@ const NavBar = props => (
                         "visitor": props.user,
                         "owner": props.user,
                     }
-                }}>{props.user.firstname + " " + props.user.lastname}</Link>
+                }}>{props.username}</Link>
             </div>
             {props.create_post}
             <div className="iconPairs">
@@ -55,9 +55,9 @@ const NavBar = props => (
 
 function showNavbar(user){
     if (user !== undefined && user !== null && user !== "" && user !== 0 && user !== {}){
-        return  <NavBar user={user} state={"logout"} login={"Logout"} userIcon={getUserSvg()} loginIcon={getLogoutSvg()} create_post={userCreatePost(true, user)}/>
+        return  <NavBar user={user} username={user.firstname + " " + user.lastname} state={"logout"} login={"Logout"} userIcon={getUserSvg()} loginIcon={getLogoutSvg()} create_post={userCreatePost(true, user)}/>
     }
-    return  <NavBar user={{firstname: "", lastname: ""}} state={"login"} login={"Login"} userIcon={""} loginIcon={getLoginSvg()} create_post={userCreatePost(false)}/>
+    return  <NavBar user={undefined} username={""} state={"login"} login={"Login"} userIcon={""} loginIcon={getLoginSvg()} create_post={userCreatePost(false)}/>
 }
 
 export {
