@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { showNavbar } from "./navbar.component";
-import { getTimeSvg, getBidSvg, getMoneySvg } from "../helpers/svgFunctions";
+import { getTimeSvg, getMoneySvg } from "../helpers/svgFunctions";
 
 const Client = props => (
     <p>{props.user.username}</p>

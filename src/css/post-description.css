@@ -35,8 +35,8 @@
 }
 .price-details{
     display: flex;
-    justify-content: space-between;
-    width: 30%;
+    flex-direction: column;
+    width: 100%;
 }
 .row1{
     width: 200%;
@@ -82,8 +82,7 @@
     width: 90%;
 }
 #bid{
-    display: flex;
-    /* justify-content: center; */
+    display: none;
     align-items: center;
     flex-direction: column;
     position: absolute;

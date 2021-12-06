@@ -15,7 +15,8 @@ h3{
 }
 .create-item-form{
     background-color: white;
-    margin-left: 33%;
+    margin-left: 27.5%;
+    width: 45%;
 }
 .form-input{
     border: 1px solid rgb(184, 182, 182);

@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { showNavbar } from "./navbar.component";
 import { getBidSvg, getExclamation, getUserSvg } from "../helpers/svgFunctions";
 import { Button } from 'react-bootstrap';
-// import { bidFunction } from "../helpers/bidFunction";
 
 export default class PostDetail extends Component {
     constructor(props){
@@ -14,7 +13,7 @@ export default class PostDetail extends Component {
             postid: this.props.location.state.post_id,
             post: null,
             bidDisplay: {},
-            buttonsDisplay: {}
+            buttonsDisplay: {},
         }
         this.bidAndHideModal = this.bidAndHideModal.bind(this);
         this.showBidModal = this.showBidModal.bind(this);
@@ -46,7 +45,6 @@ export default class PostDetail extends Component {
             .catch((error) => {
                 console.log(error);
             });
-        console.log(this.state.user)
     }
 
     render() {
@@ -78,20 +76,20 @@ export default class PostDetail extends Component {
                             <p> {getExclamation()}Bid End Date :</p>
                             <p id="end-bid-date">{this.state.post.bidenddate}</p> <br/>
                             <div className="price-details">
-                                <div >
-                                    <p>START price:</p> 
-                                    <p className="row1">LAST bidder:</p><br/>
+                                <div>
+                                    START price: {this.state.post.startingprice} RON
                                 </div>
                                 <div>
-                                    <p>{this.state.post.startingprice} RON</p>
-                                    <p>name</p> 
+                                    LAST bidder: name
                                 </div>
                             </div>
                         </div>
+                        <br/>
                         <Link to={{
                                 pathname: "/",
                                 state: this.state.user
-                        }}><Button className="button-back-details">BACK</Button>
+                        }}>
+                            <Button className="button-back-details">BACK</Button>
                         </Link>
                     </div>
                     <div className="post-image">
@@ -101,7 +99,6 @@ export default class PostDetail extends Component {
                 <div className="bottom-buttons" style={this.state.buttonsDisplay}>
                     {/* need another page for viewing the summary of product*/}
                     <Button>Buy Now!</Button> 
-                    {/* a little window appear, and we can add bigger payment */}
                     <button onClick={this.showBidModal}>Bidding</button>
                     {/* will add the product into following list (need another page too to print the queue of "posts what i'm following") */}
                     <Button>Follow this post</Button>
@@ -111,7 +108,7 @@ export default class PostDetail extends Component {
                         <p>Write a <b>BIGGER</b> payment with whom you want to bid!</p>
                         <form>
                             <label>Your payment:</label>
-                            <input className="form-input" type="text" name="bid" autoComplete="off" required onChange=""/><br/>
+                            <input className="form-input" type="text" autoComplete="off" required/><br/>
                             <input type="submit" value="Bid" onClick={this.bidAndHideModal}/>
                             <button onClick={this.hideBidModal}>Back</button>
                         </form> 
