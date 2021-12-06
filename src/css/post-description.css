@@ -3,7 +3,7 @@
     justify-content: space-evenly;
     align-items: center;
     width: 80%;
-    margin: 2% 0% 0% 5%;
+    margin: 0.5% 0% 0% 5%;
 }
 .post-text{
     margin-top: 4%;
@@ -46,7 +46,6 @@
     display:flex;
     justify-content: space-between;
     width: 60%;
-    font-size: 26px;
     margin: 5% 0% 5% 23%;
 }
 .bottom-buttons > button{
@@ -54,6 +53,7 @@
     color: white;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     width: 25%;
+    font-size: 24px;
     transition-duration: 0.3s;
     cursor: pointer;
     border: none;
@@ -61,7 +61,48 @@
 .bottom-buttons > button:hover{
     background-color: black;
 }
-.backicon{
-    color: black;
-    margin-left: -5%;
+.button-back-details{
+    background-color: rgb(23, 133, 60);
+    color: white;
+    margin-left: 5%;
+    margin-bottom: 5%;
+    text-align: center;
+    font-size: 12px;
+    width: 13%;
+    transition-duration: 0.3s;
+    cursor: pointer;
+    border: none;
+}
+.button-back-details:hover{
+    background: black;
+}
+.owner-follow{
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+}
+#bid{
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: visible;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+.bid-div{
+    background: white;
+    animation-name: bidwindow;
+    position: relative;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes bidwindow {
+    from {margin-top: 0%;}
+    to {margin-top: 20%;}
 }

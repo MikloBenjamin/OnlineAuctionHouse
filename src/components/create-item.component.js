@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
+import { Button } from 'react-bootstrap';
+import { getBindHourSvg, getBindMinuteSvg, getImageSvg, getMoneySvg, getTimeSvg } from "../helpers/svgFunctions";
+
 // import { showNavbar } from "./navbar.component";
-import { getBack, getBindHourSvg, getBindMinuteSvg, getImageSvg, getMoneySvg, getTimeSvg } from "../helpers/svgFunctions";
 
 export default class CreateItem extends Component {
     constructor(props){
@@ -109,16 +111,16 @@ export default class CreateItem extends Component {
                 <h3><b>Create New</b> Post</h3><br/>
                 <p id="text-create-item">If you want to add a new auction post, just complete the form and press <i>Done</i>!</p>
                 <div className="create-item-container">
+                        {/* <div className="back-point">
+                            <Link to={{
+                                pathname: "/",
+                                state: this.state.user
+                            }}>{getBack()}
+                        </Link>
+                        </div> */}
                     <div className="create-item-form">
-                    <div className="back-point">
-                        <Link to={{
-                            pathname: "/",
-                            state: this.state.user
-                        }}>{getBack()}
-                    </Link>
-                    </div>
                         <form onSubmit={this.onSubmit} encType="multipart/form-data" className="form">
-                            <div className="form-group">
+                            <div className="form-group"><br/>
                                 <label>Title: </label><br/>
                                 <input
                                     type="text"
@@ -183,12 +185,18 @@ export default class CreateItem extends Component {
                                     className="choose-file"
                                 />
                             </div><br/><br/>
-                            <div className="form-group">
-                                <input
+                            <div className="back-done-button">
+                                <Link to={{
+                                    pathname: "/",
+                                    state: this.state.user
+                                }}><Button
+                                        className="button-back"
+                                >Back</Button></Link>
+                                <Button
                                     type="submit"
                                     className="button-done"
                                     value="Done"
-                                />
+                                >Done</Button>
                             </div>
                         </form><br/>
                     </div>

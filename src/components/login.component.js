@@ -81,7 +81,7 @@ export default class Login extends Component {
             <div id="sign-in-container">
                 <div id="sign-in-form"><br/>
                     <div><b>Hello!</b></div>
-                    <div>Sign into Your account</div><br/><br/>
+                    <h5>Sign into Your account</h5><br/><br/>
                     <form onSubmit={this.onSubmit}>
                         <label>
                             Username:</label>
