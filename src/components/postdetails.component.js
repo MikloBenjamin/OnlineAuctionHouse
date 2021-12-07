@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { showNavbar } from "./navbar.component";
-import { getBidSvg, getExclamation, getUserSvg } from "../helpers/svgFunctions";
+import { getBidSvg, getExclamation, getBiggerMoneySvg, getUserSvg, getBackWhite } from "../helpers/svgFunctions";
 import { Button } from 'react-bootstrap';
 
 export default class PostDetail extends Component {
@@ -14,10 +14,15 @@ export default class PostDetail extends Component {
             post: null,
             bidDisplay: {},
             buttonsDisplay: {},
+            followIconColor: {},
+            buttonUnfollowPost: {},
+            buttonFollowPost: {},
         }
         this.bidAndHideModal = this.bidAndHideModal.bind(this);
         this.showBidModal = this.showBidModal.bind(this);
         this.hideBidModal = this.hideBidModal.bind(this);
+        this.followIconAppear = this.followIconAppear.bind(this);
+        this.followIconHide = this.followIconHide(this);
     }
 
     showBidModal(){
@@ -32,6 +37,18 @@ export default class PostDetail extends Component {
 
     bidAndHideModal(){
         this.hideBidModal();
+    }
+
+    followIconAppear(){
+        this.setState({ followIconColor: { color: 'grey'} });
+        this.setState({ buttonUnfollowPost: { display: 'flex'}});
+        this.setState({ buttonFollowPost: { display: 'none'}});
+    }
+
+    followIconHide(){
+        this.setState({ followIconColor: { color: 'white'} });
+        this.setState({ buttonUnfollowPost: { display: 'none'}});
+        this.setState({ buttonFollowPost: { display: 'flex'}});
     }
 
     componentDidMount(){
@@ -60,37 +77,34 @@ export default class PostDetail extends Component {
                 {showNavbar(this.state.user)}
                 <div className="product-description-container">
                     <div className="post-text">
-                        <div className="text"><br/>
-                        <div className="owner-follow">
-                            {/* we need the owner first && last name */}
-                           <p id="owner">
-                                {getUserSvg()}
-                                {this.state.post.owner}</p>
-                            {/* icon appear when the button 'Follow this post' is pushed */}
-                            {getBidSvg()}
-                        </div>
+                        <div div className="text"><br/>
+                            <div className="owner-follow">
+                                {/* we need the owner first && last name */}
+                                <p id="owner">
+                                        {getUserSvg()}
+                                        {this.state.post.owner}</p>
+                                    {/* icon appear when the button 'Follow this post' is pushed */}
+                                    <p id="follow-icon" style={this.state.followIconColor}>{getBidSvg()}</p>
+                            </div>
                             <p id="title">{this.state.post.title} </p> 
                             <br/>
                             <h6>DESCRIPTION:<br/></h6>
-                            <p>{this.state.post.description}</p><br/>
+                            <p>{this.state.post.description}</p>
                             <p> {getExclamation()}Bid End Date :</p>
                             <p id="end-bid-date">{this.state.post.bidenddate}</p> <br/>
                             <div className="price-details">
-                                <div>
-                                    START price: {this.state.post.startingprice} RON
-                                </div>
-                                <div>
-                                    LAST bidder: name
-                                </div>
+                                <p>START price:</p>
+                                <p id="price"><b>{this.state.post.startingprice} RON</b></p>
                             </div>
+                            <p>LAST bidder: name</p>
+                            <br/>
+                            <Link to={{
+                                    pathname: "/",
+                                    state: this.state.user
+                            }}>
+                                <Button className="button-back-details">BACK</Button>
+                            </Link>
                         </div>
-                        <br/>
-                        <Link to={{
-                                pathname: "/",
-                                state: this.state.user
-                        }}>
-                            <Button className="button-back-details">BACK</Button>
-                        </Link>
                     </div>
                     <div className="post-image">
                         <img src={`data:${this.state.post.image.data};base64,${this.state.post.image.imageBase64}`} alt="Sorry can't find your img... :("/>               
@@ -101,16 +115,21 @@ export default class PostDetail extends Component {
                     <Button>Buy Now!</Button> 
                     <button onClick={this.showBidModal}>Bidding</button>
                     {/* will add the product into following list (need another page too to print the queue of "posts what i'm following") */}
-                    <Button>Follow this post</Button>
+                    <Button id="follow" style={this.state.buttonFollowPost} onClick={this.followIconAppear} >Follow this post</Button>
+                    <Button id="unfollow" style={this.state.buttonUnfollowPost} onClick={this.followIconHide} >Unfollow this post</Button>
                 </div>
                 <div id="bid" style={this.state.bidDisplay}>
                     <div className="bid-div">
-                        <p>Write a <b>BIGGER</b> payment with whom you want to bid!</p>
+                        <div><h3>Make <b>BID</b></h3></div><br/>
+                        <p id="bid-text">Write your payment and let's bidding!</p><br/>
                         <form>
-                            <label>Your payment:</label>
-                            <input className="form-input" type="text" autoComplete="off" required/><br/>
-                            <input type="submit" value="Bid" onClick={this.bidAndHideModal}/>
-                            <button onClick={this.hideBidModal}>Back</button>
+                            <label id="bid-label">Your bid:</label>
+                            <input className="bid-input" type="text" autoComplete="off" required/><br/><br/><br/>
+                            <div className="bid-buttons">
+                                <button className="button-bid-style" onClick={this.hideBidModal}>{getBackWhite()}Back</button>
+                                <button className="button-bid-style" type="submit" value="Bid" onClick={this.bidAndHideModal}>{getBiggerMoneySvg()} Bid</button>
+                            </div>
+                            <br/>
                         </form> 
                     </div>
                 </div>

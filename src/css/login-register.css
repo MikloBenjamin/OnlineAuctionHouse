@@ -158,6 +158,12 @@ h4{
         width: 80%;
         margin-left: 10%;
     }
+    #welcome-panel{
+        display: none;
+    }
+    .register-form{
+        margin-left: 20%;
+    }
 }
 
 @media only screen and (min-width: 400px) and (max-width: 700px) {
@@ -170,6 +176,16 @@ h4{
     }
     .registerLabels{
         font-size: 2vw;
+    }
+    #welcome-panel{
+        display: none;
+    }
+    .register-form{
+        margin-left: 10%;
+    }
+    .register-container{
+        width: 65%;
+        height: 550px;
     }
 }
 
@@ -194,6 +210,33 @@ h4{
     }
     .registerLabels{
         font-size: 4vw;
+    }
+    #welcome-panel{
+        display: none;
+    }
+    .register-form{
+        margin-left: 10%;
+    }
+    .register-container{
+        height: 600px;
+    }
+    .back-button{
+        margin-top: 10%;
+    }
+}
+@media only screen and (max-width: 420px) { 
+    .register-form{
+        width: 20%;
+        margin-left: 3%;
+    }
+    .register-form > h4{
+        margin-left: 100%;
+    }
+    .register-container{
+        height: 800px;
+    }
+    .create-button{
+        width: 150%;
     }
 }
 

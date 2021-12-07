@@ -35,8 +35,12 @@
 }
 .price-details{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: 100%;
+}
+#price{
+    font-size: 18px;
+    margin-left: 5%;
 }
 .row1{
     width: 200%;
@@ -81,6 +85,15 @@
     justify-content: space-between;
     width: 90%;
 }
+#follow-icon{
+    color:white;
+}
+#unfollow{
+    display: none;
+}
+/* #follow{
+    display: flex;
+} */
 #bid{
     display: none;
     align-items: center;
@@ -95,13 +108,128 @@
 }
 .bid-div{
     background: white;
+    width: 45%;
+    border-radius: 5%;
+    align-items: center;
     animation-name: bidwindow;
     position: relative;
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
 }
+#bid-text{
+    text-align: center;
+}
+#bid-label{
+    margin-left: 30%;
+}
+.bid-input{
+    border-radius: 5%;
+    margin-left: 2%;
+    border: 1px solid rgb(189, 188, 188);
+}
+.bid-buttons{
+    display: flex;
+    justify-content: space-between;
+    margin-left: 25%;
+    width: 50%;
+}
+.button-bid-style{
+    background-color: rgb(29, 137, 209);
+    color: white;
+    margin-left: 5%;
+    margin-bottom: 5%;
+    text-align: center;
+    align-items: center;
+    font-size: 18px;
+    width: 35%;
+    transition-duration: 0.3s;
+    cursor: pointer;
+    border: none;
+}
+.button-bid-style:hover{
+    background-color: black;
+}
 
 @keyframes bidwindow {
     from {margin-top: 0%;}
-    to {margin-top: 20%;}
+    to {margin-top: 15%;}
+}
+
+@media only screen and (min-width: 730px) and (max-width: 1111px) {
+    .post-image{
+        width: 70%;
+    }
+    .post-text{
+        height: 430px;
+        font-size: 12px;
+    }
+    .button-back-details{
+        width: 25%;
+    }
+    .bottom-buttons > button{
+        width: 140px;
+        height: 50px;
+        font-size: 16px;
+    }
+}
+@media only screen and (min-width: 230px) and (max-width: 730px) {
+    .bottom-buttons{
+        display: grid;
+        row-gap: 5%;
+    }
+    .bottom-buttons > button{
+        width: 380px;
+    }
+    .product-description-container{
+        display: grid;
+    }
+    .post-text{
+        width: 100%;
+        height: 420px;
+        margin-left: 8%;
+        font-size: 12px;
+    }
+    .post-image{
+        width: 80%;
+        margin-left: 18%;
+    }
+}
+@media only screen and (max-width: 650px) {
+    .bottom-buttons > button{
+        width: 300px;
+    }
+    .bottom-buttons{
+        display: grid;
+        row-gap: 5%;
+    }
+    .post-text{
+        width: 100%;
+        height: 440px;
+        font-size: 12px;
+    }
+    .post-image{
+        width: 80%;
+        margin-left: 18%;
+    }
+    .button-back-details{
+        width: 17%;
+    }
+}
+@media only screen and (max-width: 461px) {
+    .bottom-buttons{
+        margin-left: 15%;
+    }
+}
+@media only screen and (max-width: 372px) {
+    .bottom-buttons{
+       margin-left: 5%;
+    }
+    .post-text{
+        width: 100%;
+        height: 450px;
+        font-size: 12px;
+    }
+    .button-back-details{
+        width: 25%;
+    }
 }
