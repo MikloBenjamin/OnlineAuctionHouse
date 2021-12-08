@@ -45,9 +45,7 @@ export default class ItemsList extends Component {
 
     itemsList(){
         return this.state.items.map(item => {
-            // console.log(item._id)
             const newItem = <Item item={item} deleteItem={this.deleteItem} key={item._id} />
-            // console.log(newItem)
             return newItem
         })
     }

@@ -16,11 +16,13 @@ export default class User extends Component {
     }
 
     showFollowButton(){
-        if (this.state.visitor.username !== this.state.owner.username){
-            return  <button id="follow-button">
-                        Follow
-                        {getFollowSvg("20", "20", "follow-icon")}
-                    </button>
+        if (this.state.visitor && this.state.owner){
+            if (this.state.visitor.username !== this.state.owner.username){
+                return  <button id="follow-button">
+                            Follow
+                            {getFollowSvg("20", "20", "follow-icon")}
+                        </button>
+            }
         }
     }
 

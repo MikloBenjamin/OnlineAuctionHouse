@@ -85,4 +85,28 @@ router.post("/register/user/", (req, res) => {
     });
 });
 
+router.get("/:username", (req, res) => {    
+    console.log(req.params)
+    User.findOne({username: req.params.username}, function(error, user){
+        if (error){
+            console.log(error);
+            res.send("error");
+        }
+        if (user){
+            console.log("user found");
+            clientUser = {
+                username: user.username,
+                email: user.email,
+                about: user.about,
+                firstname: user.firstname,
+                lastname: user.lastname
+            }
+            res.send(clientUser);
+        } else {
+            console.log("user not found");
+            res.send("null");
+        }
+    });
+});
+
 module.exports = router;

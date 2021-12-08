@@ -38,7 +38,7 @@
     flex-direction: row;
     width: 100%;
 }
-#price{
+.price{
     font-size: 18px;
     margin-left: 5%;
 }
@@ -86,7 +86,7 @@
     width: 90%;
 }
 #follow-icon{
-    color:white;
+    display: none;
 }
 #unfollow{
     display: none;
@@ -94,7 +94,7 @@
 /* #follow{
     display: flex;
 } */
-#bid{
+.bid{
     display: none;
     align-items: center;
     flex-direction: column;
@@ -116,10 +116,10 @@
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
 }
-#bid-text{
+.bid-text{
     text-align: center;
 }
-#bid-label{
+.bid-label{
     margin-left: 30%;
 }
 .bid-input{

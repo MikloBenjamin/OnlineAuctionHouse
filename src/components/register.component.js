@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
 import { getEmail, getKey } from "../helpers/svgFunctions";
 
@@ -20,7 +20,8 @@ export default class Register extends Component {
             password: '',
             firstname: '',
             lastname: '',
-            about: ''
+            about: '',
+            registered: false
         }
     }
 
@@ -67,7 +68,10 @@ export default class Register extends Component {
 
         axios.post("http://localhost:5823/users/register/user/", item)
             .then(response => {
-                console.log(response.data)
+                console.log(response.data);
+                this.setState({
+                    registered: true
+                })
             })
             .catch((error) => {
                 if (error.response){
@@ -83,22 +87,24 @@ export default class Register extends Component {
     }
 
     render() {
-        return (
-            <div className="register-container">
-                <div className="register-form"><br/>
+        return this.state.registered ? <Redirect to={{
+                                            pathname: `/login`,
+                                            state: this.state.user
+                                        }}/> : (
+            <div className="sign-container" id="register-container">
+                <div className="sign-form" id ="register-form-container"><br/>
                     <h4>Create an account <b>now</b>!</h4><br/>
                     <form onSubmit={this.onSubmit}>
                         <label>
-                            {getEmail()}
-                            Email: </label><br/><input className="form-input" type="text" name="email" required onChange={this.onChangeEmail}/><br/>
-                        <label>First Name: </label><br/><input className="form-input" type="text" name="firstname" required onChange={this.onChangeFirstName}/><br/>
-                        <label>Last Name: </label><br/><input className="form-input" type="text" name="lastname" required onChange={this.onChangeLastName}/><br/>
-                        <label>About: </label><br/><input className="form-input" type="text" name="about" onChange={this.onChangeAbout}/><br/>
-                        <label>Username: </label><br/><input className="form-input" type="text" name="username" minLength="4" required onChange={this.onChangeUserName}/><br/>
+                            {getEmail()}Email: </label><input className="form-input" type="text" name="email" required onChange={this.onChangeEmail}/>
+                        <label>First Name: </label><input className="form-input" type="text" name="firstname" required onChange={this.onChangeFirstName}/>
+                        <label>Last Name: </label><input className="form-input" type="text" name="lastname" required onChange={this.onChangeLastName}/>
+                        <label>About: </label><input className="form-input" type="text" name="about" onChange={this.onChangeAbout}/>
+                        <label>Username: </label><input className="form-input" type="text" name="username" minLength="4" required onChange={this.onChangeUserName}/>
                         <label>
                             {getKey()}
-                            Password: </label><br/><input className="form-input" type="password" name="pwd" minLength="4" required onChange={this.onChangePwd}/><br/><br/>
-                        <input className="create-button" type="submit" value="Create"/>
+                            Password: </label><input className="form-input" type="password" name="pwd" minLength="4" required onChange={this.onChangePwd}/>
+                        <input type="submit" value="Create Account"/>
                     </form>
                     <div>
                         <Link to="/" className="back-button">
@@ -106,6 +112,7 @@ export default class Register extends Component {
                                 <path fillRule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
                             </svg>
                         </Link>
+                        <br/>
                         <p className="dont-have-account">Already have an account? <Link to="/login">Sign In!</Link></p>
                     </div>
                 </div>

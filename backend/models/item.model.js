@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+mongoose.set("debug", true);
+
 // This is the table
 const itemSchema = new Schema({
     title: {
@@ -26,10 +28,6 @@ const itemSchema = new Schema({
         name: String,
         imageBase64: String
     },
-    likes: {
-        type: Number,
-        required: false
-    },
     bidenddate: {
         type: Date,
         required: true
@@ -37,6 +35,10 @@ const itemSchema = new Schema({
     startingprice: {
         type: Number,
         required: true
+    },
+    bidprice: {
+        type: Number,
+        required: false
     },
     bidder: {
         type: String,

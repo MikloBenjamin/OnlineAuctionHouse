@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
+import moment from "moment";
 import { showNavbar } from "./navbar.component";
 import { getBidSvg, getExclamation, getBiggerMoneySvg, getUserSvg, getBackWhite } from "../helpers/svgFunctions";
 import { Button } from 'react-bootstrap';
@@ -11,44 +12,138 @@ export default class PostDetail extends Component {
         this.state = {
             user: this.props.location.state.user,
             postid: this.props.location.state.post_id,
+            post_owner: null,
             post: null,
             bidDisplay: {},
             buttonsDisplay: {},
-            followIconColor: {},
+            followIconDisplay: {},
             buttonUnfollowPost: {},
             buttonFollowPost: {},
+            hours_left: 0,
+            minutes_left: 0,
+            seconds_left: 0,
+            timer: null,
+            started: false,
+            deleted: false,
+            bidvalue: 0
         }
-        this.bidAndHideModal = this.bidAndHideModal.bind(this);
-        this.showBidModal = this.showBidModal.bind(this);
-        this.hideBidModal = this.hideBidModal.bind(this);
-        this.followIconAppear = this.followIconAppear.bind(this);
-        this.followIconHide = this.followIconHide(this);
     }
 
-    showBidModal(){
+    showBidModal(e){
+        e.preventDefault();
         this.setState({ bidDisplay: { display: 'flex' } });
         this.setState({ buttonsDisplay: { display: 'none' } });
     }
 
-    hideBidModal(){
+    hideBidModal(e){
         this.setState({ bidDisplay: { display: 'none' }});
         this.setState({ buttonsDisplay: { display: 'flex' } });
     }
 
-    bidAndHideModal(){
-        this.hideBidModal();
-    }
-
     followIconAppear(){
-        this.setState({ followIconColor: { color: 'grey'} });
-        this.setState({ buttonUnfollowPost: { display: 'flex'}});
-        this.setState({ buttonFollowPost: { display: 'none'}});
+        this.setState({ 
+            followIconDisplay: { display: 'flex'},
+            buttonUnfollowPost: { display: 'flex'},
+            buttonFollowPost: { display: 'none'}
+        });
     }
 
     followIconHide(){
-        this.setState({ followIconColor: { color: 'white'} });
-        this.setState({ buttonUnfollowPost: { display: 'none'}});
-        this.setState({ buttonFollowPost: { display: 'flex'}});
+        this.setState({ 
+            followIconDisplay: { display: 'none'},
+            buttonUnfollowPost: { display: 'none'},
+            buttonFollowPost: { display: 'flex'}
+        });
+    }
+    
+    stopTimer(){
+        clearInterval(this.state.timer);
+        this.setState({
+            timer: null,
+            started: false
+        });
+    }
+
+    countdown(){
+        const now = moment();
+        const end = moment(this.state.post.bidenddate);
+        const difference = end.diff(now);
+        if (difference <= 0){
+            this.stopTimer();
+            this.setState({
+                hours_left: 0,
+                minutes_left: 0,
+                seconds_left: 0
+            });
+            axios.delete("http://localhost:5823/items/delete/" + this.state.post._id)
+                .then(() => {
+                    this.setState({
+                        deleted: true,
+                        post_owner: null,
+                        post: null
+                    });
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            return;
+        }
+        const duration = moment.duration(difference);
+        this.setState({
+            hours_left: parseInt(duration.asHours()),
+            minutes_left: parseInt(duration.asMinutes()%60),
+            seconds_left: parseInt(duration.asSeconds()%60)
+        });
+    }
+
+    startTimer(){
+        if (!this.state.started){
+            this.setState({
+                timer: setInterval(this.countdown, 1000),
+                started: true
+            });
+        }
+    }
+
+    onBidValueChange(e){
+        this.setState({
+            bidvalue: e.target.value
+        });
+    }
+
+    onBidSubmit(e){
+        e.preventDefault();
+        if (!this.state.user){
+            this.setState({
+                triedtobid: true
+            });
+            this.hideBidModal();
+            return;
+        }
+
+        if (this.state.bidvalue < this.state.post.bidprice){
+            console.log("shit is back")
+            return;
+        }
+    
+        const updatedItem = {
+            bidder: this.state.user.username,
+            bidprice: this.state.bidvalue
+        }
+
+        axios.post("http://localhost:5823/items/update/" + this.state.post._id, updatedItem)
+            .then((response) => {
+                console.log(response.data)
+                this.setState({
+                    post: response.data
+                }, () => {
+                    this.hideBidModal();
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        
     }
 
     componentDidMount(){
@@ -58,6 +153,25 @@ export default class PostDetail extends Component {
                     post: response.data,
                     postid: null
                 });
+                axios.get("http://localhost:5823/users/" + this.state.post.owner)
+                    .then(res => {
+                        this.setState({
+                            post_owner: res.data
+                        });
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+                this.showBidModal = this.showBidModal.bind(this);
+                this.hideBidModal = this.hideBidModal.bind(this);
+                this.onBidSubmit = this.onBidSubmit.bind(this);
+                this.onBidValueChange = this.onBidValueChange.bind(this);
+                this.followIconAppear = this.followIconAppear.bind(this);
+                this.followIconHide = this.followIconHide.bind(this);
+                this.startTimer = this.startTimer.bind(this);
+                this.stopTimer = this.stopTimer.bind(this);
+                this.countdown = this.countdown.bind(this);
+                this.startTimer();
             })
             .catch((error) => {
                 console.log(error);
@@ -65,44 +179,53 @@ export default class PostDetail extends Component {
     }
 
     render() {
-        if (this.state.post === null){
-            return (
-                <main>
-                    {showNavbar(this.state.user)}
-                </main>
-            )
-        }
-        return (
+        return (this.state.post_owner === null || this.state.post === null) ? this.state.deleted === true ? <Redirect to={{
+                    pathname: `/`,
+                    state: this.state.user
+                }}/> : "Loading..." : (
             <main>
                 {showNavbar(this.state.user)}
                 <div className="product-description-container">
                     <div className="post-text">
-                        <div div className="text"><br/>
+                        <div className="text"><br/>
                             <div className="owner-follow">
                                 {/* we need the owner first && last name */}
-                                <p id="owner">
+                                <Link id="owner" to={{
+                                    pathname: "/user",
+                                    state: {
+                                        "visitor": this.state.user,
+                                        "owner": this.state.post_owner
+                                    }
+                                }}>
                                         {getUserSvg()}
-                                        {this.state.post.owner}</p>
+                                        {this.state.post_owner.firstname} {this.state.post_owner.lastname}</Link>
                                     {/* icon appear when the button 'Follow this post' is pushed */}
-                                    <p id="follow-icon" style={this.state.followIconColor}>{getBidSvg()}</p>
+                                    <p id="follow-icon" style={this.state.followIconDisplay}>{getBidSvg()}</p>
                             </div>
                             <p id="title">{this.state.post.title} </p> 
                             <br/>
                             <h6>DESCRIPTION:<br/></h6>
                             <p>{this.state.post.description}</p>
                             <p> {getExclamation()}Bid End Date :</p>
-                            <p id="end-bid-date">{this.state.post.bidenddate}</p> <br/>
+                            <p id="end-bid-date">
+                                {this.state.hours_left}:
+                                {this.state.minutes_left}:
+                                {this.state.seconds_left}
+                            </p>
                             <div className="price-details">
                                 <p>START price:</p>
-                                <p id="price"><b>{this.state.post.startingprice} RON</b></p>
+                                <p className="price"><b>{this.state.post.startingprice} RON</b></p>
                             </div>
-                            <p>LAST bidder: name</p>
-                            <br/>
+                            <div className="price-details">
+                                <p>BID price:</p>
+                                <p className="price"><b>{this.state.post.bidprice} RON</b></p>
+                            </div>
+                            <p>LAST bidder: {this.state.post.bidder}</p>
                             <Link to={{
                                     pathname: "/",
                                     state: this.state.user
                             }}>
-                                <Button className="button-back-details">BACK</Button>
+                                <Button className="button-back-details" onClick={this.stopTimer}>BACK</Button>
                             </Link>
                         </div>
                     </div>
@@ -113,24 +236,33 @@ export default class PostDetail extends Component {
                 <div className="bottom-buttons" style={this.state.buttonsDisplay}>
                     {/* need another page for viewing the summary of product*/}
                     <Button>Buy Now!</Button> 
-                    <button onClick={this.showBidModal}>Bidding</button>
+                    <Button onClick={this.showBidModal}>Bidding</Button>
                     {/* will add the product into following list (need another page too to print the queue of "posts what i'm following") */}
-                    <Button id="follow" style={this.state.buttonFollowPost} onClick={this.followIconAppear} >Follow this post</Button>
-                    <Button id="unfollow" style={this.state.buttonUnfollowPost} onClick={this.followIconHide} >Unfollow this post</Button>
+                    <Button id="follow" style={this.state.buttonFollowPost} onClick={this.followIconAppear}>Follow this post</Button>
+                    <Button id="unfollow" style={this.state.buttonUnfollowPost} onClick={this.followIconHide}>Unfollow this post</Button>
                 </div>
-                <div id="bid" style={this.state.bidDisplay}>
+                <div className="bid" style={this.state.bidDisplay}>
                     <div className="bid-div">
                         <div><h3>Make <b>BID</b></h3></div><br/>
-                        <p id="bid-text">Write your payment and let's bidding!</p><br/>
-                        <form>
-                            <label id="bid-label">Your bid:</label>
-                            <input className="bid-input" type="text" autoComplete="off" required/><br/><br/><br/>
+                        <p className="bid-text">Write your payment and let's bidding!</p><br/>
+                        <form onSubmit={this.onBidSubmit}>
+                            <label className="bid-label">Your bid:</label>
+                            <input 
+                                className="bid-input"
+                                type="number"
+                                autoComplete="off"
+                                value={this.state.bidvalue}
+                                onChange={this.onBidValueChange}
+                                step="0.01"
+                                name="bid form"
+                                min={Math.max(this.state.post.bidprice, this.state.post.startingprice)}
+                            /><br/><br/><br/>
                             <div className="bid-buttons">
                                 <button className="button-bid-style" onClick={this.hideBidModal}>{getBackWhite()}Back</button>
-                                <button className="button-bid-style" type="submit" value="Bid" onClick={this.bidAndHideModal}>{getBiggerMoneySvg()} Bid</button>
+                                <button className="button-bid-style" value="Bid">{getBiggerMoneySvg()} Bid</button>
                             </div>
-                            <br/>
                         </form> 
+                        <br/>
                     </div>
                 </div>
             </main>

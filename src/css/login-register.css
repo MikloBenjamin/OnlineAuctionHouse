@@ -1,9 +1,9 @@
-#sign-in-container{
+.sign-container{
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-    width: 60%;
-    margin-left: 20%;
+    width: 80%;
+    margin-left: 10%;
     height: 60vh;
     margin-top: 8%;
     border-radius: 2px;
@@ -15,89 +15,59 @@
     height: 100%;
 }
 
-#sign-in-form{
+.sign-form{
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
     align-items: center;
-    width: 50%;
-    height: 70%;
-    margin-top: 5%;
+    width: 100%;
+    height: 100%;
+    text-align: center;
 }
 
-#sign-in-form > form {
+.sign-form > form{
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
-    align-items: flex-start;
+    align-items: center;
 }
 
-#sign-in-form > div {
+.sign-form > div {
     font-size: 1.7vw;
 }
 
-#sign-in-form > form > input{
+.sign-form > form > input{
     width: 100%;
     height: 15%;
     font-size: 16px;
     margin-left: -5%;
 }
 
-#sign-in-form > form > label{
-    margin-left: -5%;
+.sign-form > form > label{
+    align-self: flex-start;
+    margin-left: -2%;
 }
 
-.register-form > form > label{
-    margin-left: 10%;
-}
-
-#sign-in-form > form > input[type="submit"]{
+.sign-form > form > input[type="submit"]{
     background-color: #d43b6e;
     color: white;
     transition-duration: 0.3s;
     cursor: pointer;
     border: none;
+    margin-top: 10%;
 }
 
-.register-form > form > input[type="submit"]{
-    background-color: #d43b6e;
-    color: white;
-    transition-duration: 0.3s;
-    cursor: pointer;
-    border: none;
-}
-
-#sign-in-form > form > input[type="submit"]:hover, #register-submit:hover{
+.sign-form > form > input[type="submit"]:hover, #register-submit:hover{
     background-color: #7a237a;
 }
 
-.register-container{
-    display: flex;
-    flex-direction: row;
-    width: 60%;
-    margin-left: 20%;
-    height: 70vh;
-    margin-top: 8%;
+#register-container{
+    height: 80vh;
     border-radius: 2px;
     box-shadow: 1px 10px 20px rgba(0,0,0,0.2);
     border: 1px solid #d43b6e;
 }
 
-.register-form{
-    width: 50%;
-    height: 100%;
-}
-
 .create-button{
-    width: 50%;
-    margin-left: 15%;
-}
-.register-form > form{
-    margin-left: 15%;
-}
-
-h4{
-    text-align: center;
+    width: 40%;
 }
 
 .form-input{
@@ -121,21 +91,6 @@ h4{
     color: white;
 }
 
-.registerLabels{
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: flex-start;
-}
-
-.registerLabels > label {
-    width: 30%;
-}
-
-.registerLabels > input {
-    width: 60%;
-} 
-
 #emailinput{
     width: 70%;
 }
@@ -153,25 +108,15 @@ h4{
     text-align: center;
 }
 
-@media only screen and (min-width: 701px) and (max-width: 900px) {
-    #sign-in-container{
+@media only screen and (max-width: 700px) {
+    .sign-container, .register-container{
         width: 80%;
         margin-left: 10%;
     }
-    #welcome-panel{
-        display: none;
+    .sign-form, .register-form {
+        width: 100%;
     }
-    .register-form{
-        margin-left: 20%;
-    }
-}
-
-@media only screen and (min-width: 400px) and (max-width: 700px) {
-    #sign-in-container{
-        width: 80%;
-        margin-left: 10%;
-    }
-    #sign-in-form > div {
+    .sign-form > div {
         font-size: 2.5vw;
     }
     .registerLabels{
@@ -180,63 +125,28 @@ h4{
     #welcome-panel{
         display: none;
     }
-    .register-form{
-        margin-left: 10%;
-    }
     .register-container{
-        width: 65%;
         height: 550px;
     }
 }
 
 @media only screen and (max-width: 500px) { 
-    #sign-in-container{
+    .sign-container, .register-container{
         width: 90%;
         margin-left: 5%;
         flex-direction: column;
     }
-    #sign-in-form {
-        width: 100%;
-    }
-    #sign-in-form > div {
+    .sign-form > div {
         font-size: 4vw;
-    }
-    #welcome-panel{
-        display: none;
     }
     .back-button{
         display: block;
-        margin-left: calc(50% - 15px);
     }
     .registerLabels{
         font-size: 4vw;
     }
-    #welcome-panel{
-        display: none;
-    }
-    .register-form{
-        margin-left: 10%;
-    }
-    .register-container{
-        height: 600px;
-    }
     .back-button{
-        margin-top: 10%;
-    }
-}
-@media only screen and (max-width: 420px) { 
-    .register-form{
-        width: 20%;
-        margin-left: 3%;
-    }
-    .register-form > h4{
-        margin-left: 100%;
-    }
-    .register-container{
-        height: 800px;
-    }
-    .create-button{
-        width: 150%;
+        padding-top: 15px;
     }
 }
 

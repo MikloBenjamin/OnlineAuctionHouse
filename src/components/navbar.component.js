@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../logoGGfinal.png";
-import { getLoginSvg, getLogoutSvg, getUserSvg, getDropdownSvg, getCreatePostSvg, getSearchSvg } from "../helpers/svgFunctions";
+import { getLoginSvg, getLogoutSvg, getUserSvg, getCreatePostSvg } from "../helpers/svgFunctions";
 
 function userCreatePost(isLoggedIn, user){
     if(isLoggedIn){
@@ -20,8 +20,10 @@ const NavBar = props => (
         <Link to={{
             pathname: "/",
             state: props.user
-        }}><img id="logo" src={logo} alt=""></img></Link>
-        <div>
+        }}>
+            <img id="logo" src={logo} alt=""></img>
+        </Link>
+        <div className="navbar-input">
             <div className="iconPairs">
                 {props.userIcon}
                 <Link to={{
@@ -30,7 +32,9 @@ const NavBar = props => (
                         "visitor": props.user,
                         "owner": props.user,
                     }
-                }}>{props.username}</Link>
+                }}>
+                    {props.username}
+                </Link>
             </div>
             {props.create_post}
             <div className="iconPairs">
@@ -40,16 +44,16 @@ const NavBar = props => (
                     state: props.state
                 }}>{props.login}</Link>
             </div>
-            <div>
+            {/* <div>
                 {getDropdownSvg()}
-            </div>
+            </div> */}
         </div>
-        <div className="search-engine-div">
-        <form action="">
-            <input className="search" type="text" placeholder="Search.." name="search"/>
-            {getSearchSvg()}
-        </form>
-        </div>
+        {/* <div className="search-engine-div">
+            <form>
+                <input className="search" type="text" placeholder="Search.." name="search"/>
+                {getSearchSvg()}
+            </form>
+        </div> */}
     </nav>
 )
 

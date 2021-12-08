@@ -1,8 +1,10 @@
 const router = require("express").Router();
-const app = require("express");
+const crypto = require("crypto");
 const fs = require("fs");
 const path = require("path");
 const multer = require("multer");
+const moment = require("moment");
+
 let Item = require("../models/item.model");
 
 router.route("/").get((req, res) => {
@@ -30,14 +32,14 @@ router.route("/delete/:id").delete((req, res) => {
 });
 
 router.route("/update/:id").post((req, res) => {
+    console.log("id = " + req.params.id)
     Item.findById(req.params.id)
         .then(item => {
-            item.name = req.body.name;
-            item.description = req.body.description;
-            item.date = Date.parse(req.body.date);
+            item.bidder = req.body.bidder;
+            item.bidprice = req.body.bidprice;
 
             item.save()
-                .then(() => res.json("Item updated!"))
+                .then(() => res.json(item))
                 .catch(error => res.status(400).json("Error: " + error));
         })
         .catch(error => res.status(400).json("Error: " + error));
@@ -70,11 +72,12 @@ var upload = multer({
 router.post("/createWithImage", upload.single("image"), (req, res) => {
     const imageContent = fs.readFileSync(req.file.path)
 
-    biddingtime = new Date();
-    biddingtime.setHours(biddingtime.getHours() + req.body.hours)
-    biddingtime.setMinutes(biddingtime.getMinutes() + req.body.minutes)
+    biddingtime = moment();
+    biddingtime.add(parseInt(req.body.hours), "hours");
+    biddingtime.add(parseInt(req.body.minutes), "minutes");
 
     const newItem = new Item({
+        // _id: crypto.randomBytes(16).toString("hex"),
         title: req.body.title,
         description: req.body.description,
         owner: req.body.owner,
@@ -85,9 +88,9 @@ router.post("/createWithImage", upload.single("image"), (req, res) => {
             name: req.file.filename,
             imageBase64: imageContent.toString("base64")
         },
-        likes: 0,
-        bidenddate: biddingtime,
+        bidenddate: biddingtime.toDate(),
         startingprice: req.body.startingprice,
+        bidprice: 0.0,
         bidder: ""
     });
 

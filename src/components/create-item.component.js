@@ -28,9 +28,7 @@ export default class CreateItem extends Component {
         }
     }
 
-    componentDidMount(e) {
-        console.log(this.state.user)
-    }
+    componentDidMount(e) {}
 
     onChangeTitle(e){
         this.setState({
@@ -77,7 +75,14 @@ export default class CreateItem extends Component {
         formData.append("image", this.state.image);
 
         axios.post("http://localhost:5823/items/createWithImage", formData)
-            .then(res => console.log(res.data))
+            .then(() => {
+                this.setState({
+                    title: "",
+                    description: "",
+                    date: new Date(),
+                    image: null
+                });
+            })
             .catch((error) => {
                 if (error.response){
                     console.log(error.response);
@@ -88,14 +93,7 @@ export default class CreateItem extends Component {
                 else if(error.message){
                     console.log(error.message);
                 }
-            })
-
-        this.setState({
-            title: "",
-            description: "",
-            date: new Date(),
-            image: null
-        })
+            });
     }
 
     render() {
@@ -117,7 +115,7 @@ export default class CreateItem extends Component {
                                 <input
                                     type="text"
                                     required
-                                    className="form-input"
+                                    className="form-input-create"
                                     value={this.state.title}
                                     onChange={this.onChangeTitle}
                                     />
@@ -126,7 +124,7 @@ export default class CreateItem extends Component {
                                 <label>Description: </label><br/>
                                 <input
                                     type="text"
-                                    className="form-input"
+                                    className="form-input-create"
                                     value={this.state.description}
                                     onChange={this.onChangeDescription}
                                 />
@@ -137,10 +135,10 @@ export default class CreateItem extends Component {
                                     Bid time hours: </label><br/>
                                 <input 
                                     type="number" 
-                                    min="1" 
-                                    max="120" 
+                                    min="0" 
+                                    max="240" 
                                     required
-                                    className="form-input"
+                                    className="form-input-create"
                                     onChange={this.onChangeHours}/><br/>
                                 <label>
                                     {getBindMinuteSvg()}
@@ -149,8 +147,7 @@ export default class CreateItem extends Component {
                                     type="number" 
                                     min="0" 
                                     max="59" 
-                                    required
-                                    className="form-input"
+                                    className="form-input-create"
                                     onChange={this.onChangeMinutes}/>
                             </div><br/>
                             <div className="form-group">
@@ -161,7 +158,7 @@ export default class CreateItem extends Component {
                                     type="number" 
                                     min="10" 
                                     required
-                                    className="form-input"
+                                    className="form-input-create"
                                     onChange={this.onChangeStartingPrice}/>
                             </div><br/>
                             <div className="form-group">

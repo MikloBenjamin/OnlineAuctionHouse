@@ -78,10 +78,9 @@ export default class Login extends Component {
             }}/>;
         }
         return (
-            <div id="sign-in-container">
-                <div id="sign-in-form"><br/>
-                    <div><b>Hello!</b></div>
-                    <h5>Sign into Your account</h5><br/><br/>
+            <div className="sign-container">
+                <div className="sign-form"><br/>
+                    <h4>Sign into Your account</h4><br/><br/>
                     <form onSubmit={this.onSubmit}>
                         <label>
                             Username:</label>
@@ -89,7 +88,7 @@ export default class Login extends Component {
                         <label>
                             {getKey()}
                             Password:</label>
-                        <input className="form-input" type="password" name="pwd" required onChange={this.onChangePwd}/><br/>
+                        <input className="form-input" type="password" name="pwd" required onChange={this.onChangePwd}/>
                         <input type="submit" value="Sign In"/>
                     </form>
                     <div id="route-to-register">

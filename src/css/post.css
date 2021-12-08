@@ -1,0 +1,11 @@
+.main-bid-buttons{
+    border: none;
+    background-color: white;
+    width: 100%;
+}
+
+.main-bid-buttons:hover{
+    background-color: aquamarine;
+    transition-duration: 0.5s;
+    cursor: pointer;
+}
