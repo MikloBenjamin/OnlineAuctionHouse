@@ -6,6 +6,7 @@ const multer = require("multer");
 const moment = require("moment");
 
 let Item = require("../models/item.model");
+let Inventory = require("../models/inventory.model");
 
 router.route("/").get((req, res) => {
     Item.find()
@@ -32,7 +33,6 @@ router.route("/delete/:id").delete((req, res) => {
 });
 
 router.route("/update/:id").post((req, res) => {
-    console.log("id = " + req.params.id)
     Item.findById(req.params.id)
         .then(item => {
             item.bidder = req.body.bidder;
@@ -41,6 +41,60 @@ router.route("/update/:id").post((req, res) => {
             item.save()
                 .then(() => res.json(item))
                 .catch(error => res.status(400).json("Error: " + error));
+        })
+        .catch(error => res.status(400).json("Error: " + error));
+});
+
+router.route("/stash/:id").post((req, res) => {
+    Item.findById(req.params.id)
+        .then(item => {
+            const inventoryItem = new Inventory({
+                title: item.title,
+                description: item.description,
+                owner: item.bidder,
+                image: item.image,
+                bidprice: item.bidprice
+            });
+
+            inventoryItem.save()
+                .then((response) => res.json(inventoryItem))
+                .catch(error => res.status(400).json("Error: " + error));
+        })
+        .catch(error => res.status(400).json("Error: " + error));
+});
+
+router.route("/follow/:id").post((req, res) => {
+    Item.findById(req.params.id)
+        .then(item => {
+            item.followingUsers.push(req.body.username);
+            item.save()
+                .then(() => res.json(item))
+                .catch(error => res.status(400).json("Error: " + error));
+        })
+        .catch(error => res.status(400).json("Error: " + error));
+});
+
+router.route("/unfollow/:id").post((req, res) => {
+    Item.findById(req.params.id)
+        .then(item => {
+            item.followingUsers = item.followingUsers.filter((username) => {
+                return username !== req.body.username
+            });
+            item.save()
+                .then(() => res.json(item))
+                .catch(error => res.status(400).json("Error: " + error));
+        })
+        .catch(error => res.status(400).json("Error: " + error));
+});
+
+router.route("/following/").post((req, res) => {
+    Item.findById(req.body.itemId)
+        .then((item) => {
+            if (item.followingUsers.includes(req.body.username)){
+                res.json({following: true});
+            } else {
+                res.json({following: false})
+            }
         })
         .catch(error => res.status(400).json("Error: " + error));
 });
@@ -77,7 +131,6 @@ router.post("/createWithImage", upload.single("image"), (req, res) => {
     biddingtime.add(parseInt(req.body.minutes), "minutes");
 
     const newItem = new Item({
-        // _id: crypto.randomBytes(16).toString("hex"),
         title: req.body.title,
         description: req.body.description,
         owner: req.body.owner,

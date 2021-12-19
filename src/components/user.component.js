@@ -76,17 +76,14 @@ export default class User extends Component {
                 </div>
                 <hr></hr>
                 <div className="products-list">
-                    Hello Users Listings
                     { this.itemsList() }
                 </div>
                 <hr style={this.state.followedPostsStyle}></hr>
                 <div className="followed-products-list" style={this.state.followedPostsStyle}>
-                    Hello Followed Posts
                     { this.followedItemsList() }
                 </div>
                 <hr style={this.state.followedPostsStyle}></hr>
                 <div className="inventory" style={this.state.followedPostsStyle}>
-                    Hello Inventory
                     { this.inventoryItemsList() }
                 </div>
             </main>

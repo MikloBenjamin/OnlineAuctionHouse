@@ -41,11 +41,20 @@ class Post extends Component {
                 minutes_left: 0,
                 seconds_left: 0
             });
-            axios.delete("http://localhost:5823/items/delete/" + this.state.post._id)
-                .then(() => {})
-                .catch((error) => {
-                    console.log(error);
-                });
+
+            console.log("last bidder = " + this.state.post.bidder);
+            if (this.state.post.bidder !== ""){
+                axios.post("http://localhost:5823/items/stash/" + this.state.post._id, {})
+                    .then(() => {       
+                        axios.delete("http://localhost:5823/items/delete/" + this.state.post._id)
+                            .catch((error) => { console.log(error); });
+                    })
+                    .catch((error) => { console.log(error); });
+            } else {
+                axios.delete("http://localhost:5823/items/delete/" + this.state.post._id)
+                    .catch((error) => { console.log(error); });
+            }
+
             return;
         }
         const duration = moment.duration(difference);

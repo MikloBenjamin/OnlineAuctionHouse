@@ -14,7 +14,6 @@ const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 465,
     secure: true,
-    // service: "gmail",
     auth: {
         user: process.env.MAIL,
         pass: process.env.MPWD
@@ -63,7 +62,6 @@ function auth(username, password, callback){
 }
 
 function sendConfirmationEmail(name, email, confirmation_code){
-    console.log(`my email: ${process.env.MAIL}`);
     transporter.sendMail({
         from: process.env.MAIL,
         to: email,
@@ -85,11 +83,9 @@ function sendConfirmationEmail(name, email, confirmation_code){
 router.post("/login/user/", (req, res) => {
     auth(req.body.username, req.body.password, (error, user) => {
         if (error){
-            console.log(error);
             res.send("error");
         }
         if (user){
-            console.log("user found");
             clientUser = {
                 uid: user._id,
                 username: user.username,
@@ -101,7 +97,6 @@ router.post("/login/user/", (req, res) => {
             }
             res.send(clientUser);
         } else {
-            console.log("user not found");
             res.send("null");
         }
     });
@@ -126,11 +121,7 @@ router.post("/register/user/", (req, res) => {
             confirmation_code: token
         });
 
-        console.log("sending email");
-
         sendConfirmationEmail(user.firstname + " " + user.lastname, user.email, token);
-
-        console.log("email sent");
 
         user.save()
             .then(() => res.json("User registered!"))
@@ -139,14 +130,11 @@ router.post("/register/user/", (req, res) => {
 });
 
 router.get("/:username", (req, res) => {    
-    console.log(req.params)
     User.findOne({username: req.params.username}, function(error, user){
         if (error){
-            console.log(error);
             res.send("error");
         }
         if (user){
-            console.log("user found");
             clientUser = {
                 uid: user._id,
                 username: user.username,
@@ -157,14 +145,12 @@ router.get("/:username", (req, res) => {
             }
             res.send(clientUser);
         } else {
-            console.log("user not found");
             res.send("null");
         }
     });
 });
 
 router.get("/user/:id", (req, res) => {
-    console.log(req.params);
     var items = {
         userListings: [],
         userFollowedPosts: [],
@@ -172,12 +158,10 @@ router.get("/user/:id", (req, res) => {
     }
     User.findById(req.params.id, (error, user) => {
         if (error){
-            console.log(error);
             res.send("error");
         }
         if (user){
             Item.find({owner: user.username})
-                // .then(items => res.json(items))
                 .then(userListings => {
                     items.userListings = userListings;
                     Inventory.find()
@@ -205,7 +189,6 @@ router.get("/user/:id", (req, res) => {
 });
 
 router.post("/confirm/", (req, res) => {
-    console.log(req.body);
     if (req.body.ccode){
         User.findOne({confirmation_code: req.body.ccode})
             .then((user) => {

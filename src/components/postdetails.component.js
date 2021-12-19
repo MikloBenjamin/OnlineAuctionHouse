@@ -25,7 +25,8 @@ export default class PostDetail extends Component {
             timer: null,
             started: false,
             deleted: false,
-            bidvalue: 0
+            bidvalue: 0,
+            following: false
         }
     }
 
@@ -40,20 +41,37 @@ export default class PostDetail extends Component {
         this.setState({ buttonsDisplay: { display: 'flex' } });
     }
 
-    followIconAppear(){
-        this.setState({ 
-            followIconDisplay: { display: 'flex'},
-            buttonUnfollowPost: { display: 'flex'},
-            buttonFollowPost: { display: 'none'}
-        });
+    follow(){
+        if (this.state.user){
+            axios.post("http://localhost:5823/items/follow/" + this.state.post._id, {
+                username: this.state.user.username
+            })
+            .then(() => {
+                this.setState({ 
+                    followIconDisplay: { display: 'flex'},
+                    buttonUnfollowPost: { display: 'flex'},
+                    buttonFollowPost: { display: 'none'},
+                    following: true
+                });
+            });
+        }
+
     }
 
-    followIconHide(){
-        this.setState({ 
-            followIconDisplay: { display: 'none'},
-            buttonUnfollowPost: { display: 'none'},
-            buttonFollowPost: { display: 'flex'}
-        });
+    unfollow(){
+        if (this.state.user){
+            axios.post("http://localhost:5823/items/unfollow/" + this.state.post._id, {
+                username: this.state.user.username
+            })
+            .then(() => {
+                this.setState({ 
+                    followIconDisplay: { display: 'none'},
+                    buttonUnfollowPost: { display: 'none'},
+                    buttonFollowPost: { display: 'flex'},
+                    following: false
+                });
+            });
+        }
     }
     
     stopTimer(){
@@ -158,16 +176,38 @@ export default class PostDetail extends Component {
                         this.setState({
                             post_owner: res.data
                         });
+                        if (this.state.user){
+                            axios.post("http://localhost:5823/items/following/", {
+                                itemId: this.state.post._id,
+                                username: this.state.user.username
+                            })
+                            .then(resp => {
+                                if (resp.data.following === true){
+                                    this.setState({ 
+                                        followIconDisplay: { display: 'flex'},
+                                        buttonUnfollowPost: { display: 'flex'},
+                                        buttonFollowPost: { display: 'none'},
+                                        following: true
+                                    });
+                                } else {
+                                    this.setState({ 
+                                        followIconDisplay: { display: 'none'},
+                                        buttonUnfollowPost: { display: 'none'},
+                                        buttonFollowPost: { display: 'flex'},
+                                        following: false
+                                    });
+                                }
+                            })
+                            .catch((error) => { console.log(error); });
+                        }
                     })
-                    .catch((error) => {
-                        console.log(error);
-                    });
+                    .catch((error) => { console.log(error); });
                 this.showBidModal = this.showBidModal.bind(this);
                 this.hideBidModal = this.hideBidModal.bind(this);
                 this.onBidSubmit = this.onBidSubmit.bind(this);
                 this.onBidValueChange = this.onBidValueChange.bind(this);
-                this.followIconAppear = this.followIconAppear.bind(this);
-                this.followIconHide = this.followIconHide.bind(this);
+                this.follow = this.follow.bind(this);
+                this.unfollow = this.unfollow.bind(this);
                 this.startTimer = this.startTimer.bind(this);
                 this.stopTimer = this.stopTimer.bind(this);
                 this.countdown = this.countdown.bind(this);
@@ -238,8 +278,8 @@ export default class PostDetail extends Component {
                     <Button>Buy Now!</Button> 
                     <Button onClick={this.showBidModal}>Bidding</Button>
                     {/* will add the product into following list (need another page too to print the queue of "posts what i'm following") */}
-                    <Button id="follow" style={this.state.buttonFollowPost} onClick={this.followIconAppear}>Follow this post</Button>
-                    <Button id="unfollow" style={this.state.buttonUnfollowPost} onClick={this.followIconHide}>Unfollow this post</Button>
+                    <Button id="follow" style={this.state.buttonFollowPost} onClick={this.follow}>Follow this post</Button>
+                    <Button id="unfollow" style={this.state.buttonUnfollowPost} onClick={this.unfollow}>Unfollow this post</Button>
                 </div>
                 <div className="bid" style={this.state.bidDisplay}>
                     <div className="bid-div">
