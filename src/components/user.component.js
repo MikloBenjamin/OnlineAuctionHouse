@@ -1,55 +1,93 @@
 import React, { Component } from "react";
-// import axios from "axios";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { showNavbar } from "./navbar.component";
-import { getUserSvg, getBackSvg, getFollowSvg } from "../helpers/svgFunctions";
+import { getUserSvg, getBackSvg } from "../helpers/svgFunctions";
+import { Post } from "./post.component";
 import img from "../images/profile_cover.jpg";
 
 export default class User extends Component {
     constructor(props){
         super(props);
-        this.showFollowButton = this.showFollowButton.bind(this);
         this.state = {
             visitor: this.props.location.state.visitor,
-            owner: this.props.location.state.owner
+            owner: this.props.location.state.owner,
+            posts: [],
+            followedPosts: [],
+            inventory: [],
+            followedPostsStyle: this.props.location.state.visitor.username === this.props.location.state.owner.username ?
+            {display: "flex"} : {display: "none"}
         }
     }
 
-    showFollowButton(){
-        if (this.state.visitor && this.state.owner){
-            if (this.state.visitor.username !== this.state.owner.username){
-                return  <button id="follow-button">
-                            Follow
-                            {getFollowSvg("20", "20", "follow-icon")}
-                        </button>
-            }
-        }
+    itemsList(){
+        return this.state.posts.map(post => {
+            return <Post post={post} user={this.state.user} key={post._id} />
+        })
+    }
+    followedItemsList(){
+        return this.state.followedPosts.map(post => {
+            return <Post post={post} user={this.state.user} key={post._id} />
+        })
+    }
+    inventoryItemsList(){
+        return this.state.inventory.map(post => {
+            return <Post post={post} user={this.state.user} key={post._id} />
+        })
+    }
+
+    showEditModal(){
+        
+    }
+
+    componentDidMount(e){
+        axios.get("http://localhost:5823/users/user/" + this.state.owner.uid)
+        .then(response => {
+            this.setState({
+                posts: response.data.userListings,
+                followedPosts: response.data.userFollowedPosts,
+                inventory: response.data.userInventory
+            });
+            this.showEditModal = this.showEditModal.bind(this);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     }
 
     render() {
         return (
             <main>
                 {showNavbar(this.state.visitor)}
-                <div id="profile">
+                <div className="profile">
                     <Link id="back" to={{
                         pathname: "/",
                         state: this.state.visitor
                     }}>{getBackSvg()}</Link>
-                    <img id="cover-image" src={img} alt="cover"/>
+                    <img className="cover-image" src={img} alt="cover"/>
                     {getUserSvg("60", "60", "person-icon")}
-                    <div id="middle-user-side">
+                    <div className="middle-user-side">
                         <h2>{this.state.owner.firstname} {this.state.owner.lastname}</h2>
-                        {this.showFollowButton()}
                     </div>
-                    <div id="follows">
-                        <p>Followers: {this.state.owner.followers}</p>
-                        <p>Follows: {this.state.owner.following}</p>
-                        <p>Posts: {this.state.owner.posts}</p>
+                    <div className="profile-buttons">
+                        <button className="about-profile-button" onClick={this.showEditModal}>About</button>
+                        <button className="edit-profile-button" onClick={this.showEditModal}>Edit Profile</button>
                     </div>
                 </div>
-                <div id="about">
-                    About:
-                    {this.state.owner.about}
+                <hr></hr>
+                <div className="products-list">
+                    Hello Users Listings
+                    { this.itemsList() }
+                </div>
+                <hr style={this.state.followedPostsStyle}></hr>
+                <div className="followed-products-list" style={this.state.followedPostsStyle}>
+                    Hello Followed Posts
+                    { this.followedItemsList() }
+                </div>
+                <hr style={this.state.followedPostsStyle}></hr>
+                <div className="inventory" style={this.state.followedPostsStyle}>
+                    Hello Inventory
+                    { this.inventoryItemsList() }
                 </div>
             </main>
         );

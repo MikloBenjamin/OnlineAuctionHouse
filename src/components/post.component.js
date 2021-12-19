@@ -170,7 +170,7 @@ class Post extends Component {
                     <div className="bid-div">
                         <div><h3>Make <b>BID</b></h3></div><br/>
                         <p className="bid-text">Write your payment and let's bidding!</p><br/>
-                        <form onSubmit={this.onBidSubmit}>
+                        <form id={"form-" + this.state.post._id} onSubmit={this.onBidSubmit}>
                             <label className="bid-label">Your bid:</label>
                             <input 
                                 className="bid-input"
@@ -182,11 +182,11 @@ class Post extends Component {
                                 name="bid form"
                                 min={Math.max(this.state.post.bidprice, this.state.post.startingprice)}
                             /><br/><br/><br/>
-                            <div className="bid-buttons">
-                                <button className="button-bid-style" onClick={this.hideBidModal}>{getBackWhite()}Back</button>
-                                <button className="button-bid-style" value="Bid">{getBiggerMoneySvg()} Bid</button>
-                            </div>
                         </form> 
+                        <div className="bid-buttons">
+                            <button className="button-bid-style" onClick={this.hideBidModal}>{getBackWhite()}Back</button>
+                            <button className="button-bid-style" form={"form-" + this.state.post._id} value="Bid">{getBiggerMoneySvg()} Bid</button>
+                        </div>
                         <br/>
                     </div>
                 </div>

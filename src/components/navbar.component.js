@@ -40,28 +40,19 @@ const NavBar = props => (
             <div className="iconPairs">
                 {props.loginIcon}
                 <Link to={{
-                    pathname: "/login",
+                    pathname: "/login/simple",
                     state: props.state
                 }}>{props.login}</Link>
             </div>
-            {/* <div>
-                {getDropdownSvg()}
-            </div> */}
         </div>
-        {/* <div className="search-engine-div">
-            <form>
-                <input className="search" type="text" placeholder="Search.." name="search"/>
-                {getSearchSvg()}
-            </form>
-        </div> */}
     </nav>
 )
 
 function showNavbar(user){
     if (user !== undefined && user !== null && user !== "" && user !== 0 && user !== {}){
-        return  <NavBar user={user} username={user.firstname + " " + user.lastname} state={"logout"} login={"Logout"} userIcon={getUserSvg()} loginIcon={getLogoutSvg()} create_post={userCreatePost(true, user)}/>
+        return  <NavBar user={user} username={user.firstname + " " + user.lastname} state={{login: "logout"}} login={"Logout"} userIcon={getUserSvg()} loginIcon={getLogoutSvg()} create_post={userCreatePost(true, user)}/>
     }
-    return  <NavBar user={undefined} username={""} state={"login"} login={"Login"} userIcon={""} loginIcon={getLoginSvg()} create_post={userCreatePost(false)}/>
+    return  <NavBar user={undefined} username={""} state={{login: "login"}} login={"Login"} userIcon={""} loginIcon={getLoginSvg()} create_post={userCreatePost(false)}/>
 }
 
 export {

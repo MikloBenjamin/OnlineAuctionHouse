@@ -173,7 +173,7 @@ export default class CreateItem extends Component {
                                     onChange={this.onChangeImages}
                                     className="choose-file"
                                 />
-                            </div><br/><br/>
+                            </div><br/>
                             <div className="back-done-button">
                                 <Link to={{
                                     pathname: "/",

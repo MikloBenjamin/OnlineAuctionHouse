@@ -1,6 +1,5 @@
-#products-list{
+.products-list, .followed-products-list, .inventory{
     display: flex;
-    /* justify-content: space-between; */
     justify-content: flex-start;
     flex-wrap: wrap;
     margin-top: 1%;
@@ -74,7 +73,7 @@
 }
 
 @media only screen and (max-width: 420px) {
-    #products-list{
+    .products-list, .followed-products-list, .inventory{
         flex-direction: column;
     }
     

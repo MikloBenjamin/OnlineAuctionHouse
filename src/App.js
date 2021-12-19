@@ -22,7 +22,7 @@ function App() {
       <main>
         <Route exact path="/" render={ props => <Bids {...props} /> } />
         <Route path="/user" render={ props => <User {...props} /> } />
-        <Route path="/login" render={ props => <Login {...props} /> } />
+        <Route path="/login/:token" render={ props => <Login {...props} /> } />
         <Route path="/register" component={Register}/>
         <Route path="/createpost" render={ props => <CreateItem {...props} /> } />
         <Route path="/details" render={ props => <PostDetail {...props} /> } />

@@ -86,7 +86,8 @@ router.post("/createWithImage", upload.single("image"), (req, res) => {
             contentType: req.file.mimetype,
             size: req.file.size,
             name: req.file.filename,
-            imageBase64: imageContent.toString("base64")
+            imageBase64: imageContent.toString("base64"),
+            followingUsers: []
         },
         bidenddate: biddingtime.toDate(),
         startingprice: req.body.startingprice,

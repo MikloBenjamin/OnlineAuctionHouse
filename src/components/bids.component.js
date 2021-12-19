@@ -34,7 +34,7 @@ export default class Bids extends Component {
         return (
             <main>
                 {showNavbar(this.state.user)}
-                <div id="products-list">
+                <div className="products-list">
                     { this.itemsList() }
                 </div>
             </main>

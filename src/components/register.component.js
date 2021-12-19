@@ -88,8 +88,11 @@ export default class Register extends Component {
 
     render() {
         return this.state.registered ? <Redirect to={{
-                                            pathname: `/login`,
-                                            state: this.state.user
+                                            pathname: `/login/simple`,
+                                            state: {
+                                                login: "login",
+                                                user: this.state.user
+                                            }
                                         }}/> : (
             <div className="sign-container" id="register-container">
                 <div className="sign-form" id ="register-form-container"><br/>
@@ -113,7 +116,13 @@ export default class Register extends Component {
                             </svg>
                         </Link>
                         <br/>
-                        <p className="dont-have-account">Already have an account? <Link to="/login">Sign In!</Link></p>
+                        <p className="dont-have-account">Already have an account? <Link to={{
+                                            pathname: `/login/simple`,
+                                            state: {
+                                                login: "login",
+                                                user: this.state.user
+                                            }
+                                        }}>Sign In!</Link></p>
                     </div>
                 </div>
                 <div id="welcome-panel">

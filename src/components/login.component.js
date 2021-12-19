@@ -3,27 +3,47 @@ import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
 import { getKey } from "../helpers/svgFunctions";
 
+const ConfirmEmail = props => (
+    <div className="please-confirm-email">
+        Please confirm your email before you log in. Thanks!
+    </div>
+);
+
 export default class Login extends Component {
     constructor(props){
         super(props);
         this.onSubmit = this.onSubmit.bind(this);
         this.onChangeUserName = this.onChangeUserName.bind(this);
         this.onChangePwd = this.onChangePwd.bind(this);
+        this.getNonConfirmedEmailDiv = this.getNonConfirmedEmailDiv.bind(this);
         
         this.state = {
             username: '',
             password: '',
             ready: {
                 isSignedUp: false,
-                user: {}
+                user: {},
+                triedLogin: false
             },
-            logout: this.props.location.state
+            logout: (this.props.location.state && this.props.location.state.login) ? this.props.location.state.login : "login",
+            account_confirmation: this.props.match.params.token,
+            confirmed: false
         }
     }
 
     componentDidMount(){
         if (this.state.logout === "logout"){
             localStorage.clear();
+        }
+        if (this.state.account_confirmation !== "simple"){
+            console.log(this.state.account_confirmation)
+            axios.post("http://localhost:5823/users/confirm/", {ccode: this.state.account_confirmation})
+                .then(() => {
+                    this.setState({
+                        account_confirmation: "confirmed"
+                    });
+                })
+                .catch((error) => {console.log(error)});
         }
     }
 
@@ -51,9 +71,11 @@ export default class Login extends Component {
                 if(response.data !== "null" && response.data !== "error"){
                     this.setState({
                         ready: {
-                            isSignedUp: true,
-                            user: response.data
-                        }
+                            isSignedUp: response.data.status === "Active" ? true : false,
+                            user: response.data.status === "Active" ? response.data : {},
+                            triedLogin: true
+                        },
+                        confirmed: response.data.status === "Active" ? true : false
                     });
                 }
             })
@@ -70,6 +92,12 @@ export default class Login extends Component {
             });    
     }
 
+    getNonConfirmedEmailDiv(){
+        if (this.state.ready.triedLogin){
+            return <ConfirmEmail />
+        }
+    }
+
     render() {
         if (this.state.ready.isSignedUp && this.state.ready.user !== {}){
             return <Redirect to={{
@@ -81,6 +109,7 @@ export default class Login extends Component {
             <div className="sign-container">
                 <div className="sign-form"><br/>
                     <h4>Sign into Your account</h4><br/><br/>
+                    {this.getNonConfirmedEmailDiv()}
                     <form onSubmit={this.onSubmit}>
                         <label>
                             Username:</label>

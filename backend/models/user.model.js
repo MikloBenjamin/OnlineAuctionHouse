@@ -36,6 +36,15 @@ const userSchema= new Schema({
     about: {
         type: String,
         trim: true
+    },
+    status: {
+        type: String,
+        enum: ['Deactivated', 'Pending', 'Active'],
+        default: 'Pending'
+    },
+    confirmation_code: {
+        type: String,
+        unique: true
     }
 })
 
