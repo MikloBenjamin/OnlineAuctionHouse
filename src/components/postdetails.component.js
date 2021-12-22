@@ -261,6 +261,7 @@ export default class PostDetail extends Component {
                                 <p className="price"><b>{this.state.post.bidprice} RON</b></p>
                             </div>
                             <p>LAST bidder: {this.state.post.bidder}</p>
+                            <br/>
                             <Link to={{
                                     pathname: "/",
                                     state: this.state.user

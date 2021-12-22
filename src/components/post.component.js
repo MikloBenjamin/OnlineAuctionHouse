@@ -177,12 +177,12 @@ class Post extends Component {
                 }}><button className="button-details">Details</button></Link>
                 <div className="bid" style={this.state.bidDisplay}>
                     <div className="bid-div">
-                        <div><h3>Make <b>BID</b></h3></div><br/>
+                        <div className="title-style"><h3>Make <b>BID</b></h3></div><br/>
                         <p className="bid-text">Write your payment and let's bidding!</p><br/>
                         <form id={"form-" + this.state.post._id} onSubmit={this.onBidSubmit}>
-                            <label className="bid-label">Your bid:</label>
+                            <label className="bid-label-postcomponents">Your bid:</label>
                             <input 
-                                className="bid-input"
+                                className="bid-input-postcomponents"
                                 type="number"
                                 autoComplete="off"
                                 value={this.state.bidvalue}

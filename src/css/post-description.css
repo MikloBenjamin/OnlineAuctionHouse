@@ -122,6 +122,14 @@
 .bid-label{
     margin-left: 30%;
 }
+.bid-label-postcomponents{
+    margin-right: 7%;
+}
+.bid-input-postcomponents{
+    border-radius: 5%;
+    margin-right: 10%;
+    border: 1px solid rgb(189, 188, 188);
+}
 .bid-input{
     border-radius: 5%;
     margin-left: 2%;
@@ -132,6 +140,9 @@
     justify-content: space-between;
     margin-left: 25%;
     width: 50%;
+}
+.title-style{
+    margin-right: 30%;
 }
 .button-bid-style{
     background-color: rgb(29, 137, 209);
