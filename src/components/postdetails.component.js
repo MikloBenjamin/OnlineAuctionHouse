@@ -202,20 +202,20 @@ export default class PostDetail extends Component {
                         }
                     })
                     .catch((error) => { console.log(error); });
-                this.showBidModal = this.showBidModal.bind(this);
-                this.hideBidModal = this.hideBidModal.bind(this);
-                this.onBidSubmit = this.onBidSubmit.bind(this);
-                this.onBidValueChange = this.onBidValueChange.bind(this);
-                this.follow = this.follow.bind(this);
-                this.unfollow = this.unfollow.bind(this);
-                this.startTimer = this.startTimer.bind(this);
-                this.stopTimer = this.stopTimer.bind(this);
-                this.countdown = this.countdown.bind(this);
-                this.startTimer();
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        this.showBidModal = this.showBidModal.bind(this);
+        this.hideBidModal = this.hideBidModal.bind(this);
+        this.onBidSubmit = this.onBidSubmit.bind(this);
+        this.onBidValueChange = this.onBidValueChange.bind(this);
+        this.follow = this.follow.bind(this);
+        this.unfollow = this.unfollow.bind(this);
+        this.startTimer = this.startTimer.bind(this);
+        this.stopTimer = this.stopTimer.bind(this);
+        this.countdown = this.countdown.bind(this);
+        this.startTimer();
     }
 
     render() {

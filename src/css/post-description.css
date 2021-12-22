@@ -161,6 +161,10 @@
     background-color: black;
 }
 
+.about-back-button{
+    margin-left: 32.5%;
+}
+
 @keyframes bidwindow {
     from {margin-top: 0%;}
     to {margin-top: 15%;}

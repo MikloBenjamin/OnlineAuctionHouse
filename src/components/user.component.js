@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import { showNavbar } from "./navbar.component";
 import { getUserSvg, getBackSvg, getBackWhite, getBag, getActivity } from "../helpers/svgFunctions";
 import { Post } from "./post.component";
+import { InventoryItem } from "./inventory.item.component";
+
 import img from "../images/profile_cover.jpg";
-import { bind } from "lodash";
 
 export default class User extends Component {
     constructor(props){
@@ -18,13 +19,11 @@ export default class User extends Component {
             posts: [],
             followedPosts: [],
             inventory: [],
-            followedPostsStyle: this.props.location.state.visitor.username === this.props.location.state.owner.username ?
-            {display: "flex"} : {display: "none"},
-            editProfileButtonStyle: this.props.location.state.visitor.username === this.props.location.state.owner.username ?
+            visitorIsOwner: (this.props.location.state.visitor && this.props.location.state.visitor.username === this.props.location.state.owner.username) ?
+            true : false,
+            visitorIsOwnerStyle: (this.props.location.state.visitor && this.props.location.state.visitor.username === this.props.location.state.owner.username) ?
             {display: "flex"} : {display: "none"}
         }
-        this.showEditModal = this.showEditModal.bind(this);
-        this.hideEditModal = this.hideEditModal.bind(this);
     }
 
     itemsList(){
@@ -37,18 +36,44 @@ export default class User extends Component {
             return <Post post={post} user={this.state.user} key={post._id} />
         })
     }
+    
     inventoryItemsList(){
         return this.state.inventory.map(post => {
-            return <Post post={post} user={this.state.user} key={post._id} />
+            return <InventoryItem post={post} user={this.state.user} key={post._id} />
         })
     }
 
-    showEditModal(){
+    showAboutModal(){
         this.setState({ aboutDisplay: { display: 'flex' } });
     }
 
-    hideEditModal(){
+    hideAboutModal(e){
+        e.preventDefault();
         this.setState({ aboutDisplay: { display: 'none' } });
+    }
+
+    showEditModal(){
+
+    }
+
+    hideEditModal(e){
+        e.preventDefault();
+    }
+
+    getProfileButtons(){
+        if (!this.state.visitorIsOwner){
+            return (
+                <div className="profile-buttons-only-about">
+                    <button className="about-profile-button" onClick={this.showAboutModal}>About</button>
+                </div>
+            )
+        }
+        return (
+            <div className="profile-buttons">
+                <button className="about-profile-button" onClick={this.showAboutModal}>About</button>
+                <button className="edit-profile-button">Edit Profile</button>
+            </div>
+        )
     }
 
     componentDidMount(e){
@@ -63,6 +88,10 @@ export default class User extends Component {
         .catch((error) => {
             console.log(error);
         });
+        this.showAboutModal = this.showAboutModal.bind(this);
+        this.hideAboutModal = this.hideAboutModal.bind(this);
+        this.showEditModal = this.showEditModal.bind(this);
+        this.hideEditModal = this.hideEditModal.bind(this);
     }
 
     render() {
@@ -79,19 +108,12 @@ export default class User extends Component {
                     <div className="middle-user-side">
                         <h2>{this.state.owner.firstname} {this.state.owner.lastname}</h2>
                     </div>
-                    <div className="profile-buttons">
-                        <button className="about-profile-button" onClick={this.showEditModal}>About</button>
-                        <button className="edit-profile-button"  onClick={this.showEditModal}>Edit Profile</button>
-                    </div>
+                    {this.getProfileButtons()}
                     <div className="bid" style={this.state.aboutDisplay}>
                         <div className="bid-div">
                             <div><h3>About</h3></div><br/>
                             <p className="bid-text">{this.state.owner.about}</p><br/>
-                            <form>
-                                <div className="bid-buttons">
-                                    <button className="button-bid-style" onClick={this.hideEditModal}>{getBackWhite()}Back</button>
-                                </div>
-                            </form> 
+                            <button className="about-back-button button-bid-style" onClick={this.hideAboutModal}>{getBackWhite()}Back</button>
                             <br/>
                         </div>
                     </div>
@@ -100,19 +122,19 @@ export default class User extends Component {
                 <div className="products-list">
                     { this.itemsList() }
                 </div>
-                <h3 style={this.state.followedPostsStyle}>
+                <h3 style={this.state.visitorIsOwnerStyle}>
                     { getActivity() }
                     Followed Posts</h3>
-                <hr style={this.state.followedPostsStyle}></hr>
-                <div className="followed-products-list" style={this.state.followedPostsStyle}>
+                <hr style={this.state.visitorIsOwnerStyle}></hr>
+                <div className="followed-products-list" style={this.state.visitorIsOwnerStyle}>
                     { this.followedItemsList() }
                 </div>
-                <h3 style={this.state.followedPostsStyle}>
+                <h3 style={this.state.visitorIsOwnerStyle}>
                     { getBag() }
                     Inventory - Bought items
                     </h3>
-                <hr style={this.state.followedPostsStyle}></hr>
-                <div className="inventory" style={this.state.followedPostsStyle}>
+                <hr style={this.state.visitorIsOwnerStyle}></hr>
+                <div className="inventory" style={this.state.visitorIsOwnerStyle}>
                     { this.inventoryItemsList() }
                 </div>
             </main>

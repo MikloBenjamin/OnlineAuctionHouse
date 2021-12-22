@@ -34,13 +34,17 @@
     align-items: center;
 }
 
-.profile-buttons{
+.profile-buttons, .profile-buttons-only-about{
     display: grid;
     grid-template-columns: 1fr 1fr;
     border-top: 1px solid rgb(189, 188, 188);
     text-align: center;
     color: rgb(124, 124, 124);
     padding: 10px 0;
+}
+
+.profile-buttons-only-about{
+    grid-template-columns: 1fr;
 }
 
 .edit-profile-button, .about-profile-button{
