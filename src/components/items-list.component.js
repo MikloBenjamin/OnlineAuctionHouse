@@ -36,8 +36,7 @@ export default class ItemsList extends Component {
     }
 
     deleteItem(id){
-        axios.delete("http://localhost:5823/items/delete/" + id)
-            .then(res => console.log(res.data));
+        axios.delete("http://localhost:5823/items/delete/" + id);
         this.setState({
             items: this.state.items.filter(item => item._id !== id)
         })

@@ -42,7 +42,6 @@ class Post extends Component {
                 seconds_left: 0
             });
 
-            console.log("last bidder = " + this.state.post.bidder);
             if (this.state.post.bidder !== ""){
                 axios.post("http://localhost:5823/items/stash/" + this.state.post._id, {})
                     .then(() => {       
@@ -102,7 +101,6 @@ class Post extends Component {
         }
 
         if (this.state.bidvalue < this.state.post.bidprice){
-            console.log("shit is back")
             return;
         }
     
@@ -113,7 +111,6 @@ class Post extends Component {
 
         axios.post("http://localhost:5823/items/update/" + this.state.post._id, updatedItem)
             .then((response) => {
-                console.log(response.data)
                 this.setState({
                     post: response.data
                 }, () => {
@@ -134,6 +131,7 @@ class Post extends Component {
         this.countdown = this.countdown.bind(this);
         this.onBidSubmit = this.onBidSubmit.bind(this);
         this.onBidValueChange = this.onBidValueChange.bind(this);
+        this.countdown();
         this.startTimer();
         if (this.state.user && this.state.post.owner === this.state.user.username){
             this.setState({

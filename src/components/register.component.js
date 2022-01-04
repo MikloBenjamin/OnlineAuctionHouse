@@ -68,7 +68,6 @@ export default class Register extends Component {
 
         axios.post("http://localhost:5823/users/register/user/", item)
             .then(response => {
-                console.log(response.data);
                 this.setState({
                     registered: true
                 })

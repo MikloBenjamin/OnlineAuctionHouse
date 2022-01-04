@@ -28,12 +28,12 @@ export default class User extends Component {
 
     itemsList(){
         return this.state.posts.map(post => {
-            return <Post post={post} user={this.state.user} key={post._id} />
+            return <Post post={post} user={this.state.visitor} key={post._id} />
         })
     }
     followedItemsList(){
         return this.state.followedPosts.map(post => {
-            return <Post post={post} user={this.state.user} key={post._id} />
+            return <Post post={post} user={this.state.visitor} key={post._id} />
         })
     }
     

@@ -36,7 +36,6 @@ export default class Login extends Component {
             localStorage.clear();
         }
         if (this.state.account_confirmation !== "simple"){
-            console.log(this.state.account_confirmation)
             axios.post("http://localhost:5823/users/confirm/", {ccode: this.state.account_confirmation})
                 .then(() => {
                     this.setState({

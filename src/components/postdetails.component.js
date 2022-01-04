@@ -140,7 +140,6 @@ export default class PostDetail extends Component {
         }
 
         if (this.state.bidvalue < this.state.post.bidprice){
-            console.log("shit is back")
             return;
         }
     
@@ -151,7 +150,6 @@ export default class PostDetail extends Component {
 
         axios.post("http://localhost:5823/items/update/" + this.state.post._id, updatedItem)
             .then((response) => {
-                console.log(response.data)
                 this.setState({
                     post: response.data
                 }, () => {

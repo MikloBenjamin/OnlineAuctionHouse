@@ -35,32 +35,6 @@ connection.once("open", () => {
     console.log("MongoDB database opened");
 })
 
-// Setup multer for storage
-var multerDiskStorage = multer.diskStorage({
-    destination: function(req, file, cb){
-        cb(null, path.join("./images/"));
-    },
-    filename: function(req, file, cb){  
-        cb(null, file.fieldname + "-" + Date.now() + path.extname(file.originalname));
-    }
-});
-
-var multerFilter = (req, file, cb) => {
-    if (file.mimetype.startsWith("image")){
-        cb(null, true);
-    }
-    else {
-        cb("Please upload only images.", false);
-    }
-};
-
-var upload = multer({
-    storage: multerDiskStorage,
-    fileFilter: multerFilter
-});
-
-var uploadFiles = upload.array("images", 5);
-
 // Creating routes for the items
 const itemsRouter = require("./routes/items");
 const usersRouter = require("./routes/users");
