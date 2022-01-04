@@ -161,10 +161,12 @@ router.get("/user/:id", (req, res) => {
             res.send("error");
         }
         if (user){
+            console.log(user.username);
             Item.find({owner: user.username})
                 .then(userListings => {
                     items.userListings = userListings;
-                    Inventory.find()
+                    console.log(userListings.length);
+                    Inventory.find({owner: user.username})
                         .then((userInventory) => {
                             items.userInventory = userInventory;
                             Item.find()
